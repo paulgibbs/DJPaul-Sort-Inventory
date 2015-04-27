@@ -1,5 +1,4 @@
 --add a post init function for the inventory component
---AddComponentPostInit("inventory", inventorypostinit)
 function dumptable(obj, indent, recurse_levels)
 	indent = indent or 1
 	local i_recurse_levels = recurse_levels or 1
@@ -37,55 +36,81 @@ end
 local mymod = {}
 GLOBAL.c_djpaul = function()
 	print("Hello World.")
-	mymod.dsiSortInventory()
+	mymod.dsiGetInventoryDetails()
 end
 
 
-function mymod:dsiSortInventory()
-	print("in dsiSortInventory");
+function mymod:dsiGetInventoryDetails()
+	print("in dsiGetInventoryDetails");
 	local player    = GLOBAL.ThePlayer
 	local inventory = player and player.components.inventory
-	local bag       = {}
+	local foodBag   = {}
+	local lightBag  = {}
+	local toolBag   = {}
+	local weaponBag = {}
+	local miscBag   = {}
+	local sortedInv = {}
 
 	if not inventory then
-		return
+		return {}
 	end
 
-
+	-- Get and categorise the player's inventory.
 	for i = 1, inventory.maxslots do
 		item = inventory.itemslots[i]
 
 		if item then
-			local itemType  = "other"
-			local itemValue = 0
-
+			-- Food
 			if item.components.edible then
-				itemType  = "food"
-				itemValue = round(item.components.edible.hungervalue)
-			elseif item.components.weapon then
-				itemType  = "weapon"
-				itemValue = item.components.weapon.damage
+				table.insert(foodBag, {
+					name     = item.name,
+					position = i,
+					value    = round(item.components.edible.hungervalue)
+				})
+
+			-- Light
 			elseif item.components.lighter and item.components.fueled then
-				itemType  = "light"
-				itemValue = (player:HasTag("lighter") and 1000) or item.components:GetPercent()
+				table.insert(lightBag, {
+					name     = item.name,
+					position = i,
+					value    = (player:HasTag("lighter") and 1000) or item.components:GetPercent()
+				})
+
+			-- Weapons
+			elseif item.components.weapon then
+				table.insert(weaponBag, {
+					name     = item.name,
+					position = i,
+					value    = item.components.weapon.damage
+				})
+
+			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
-				itemType  = "tool"
-				itemValue = item.components.finiteuses:GetUses()
+				table.insert(toolBag, {
+					name     = item.name,
+					position = i,
+					value    = item.components.finiteuses:GetUses()
+				})
+
+			-- Everything else
+			else
+				table.insert(miscBag, {
+					name     = item.name,
+					position = i,
+					value    = 0
+				})
 			end
-
-			local item = {
-				name     = item.name,
-				position = i,
-				type     = itemType,
-				value    = itemValue
-			}
-			--		inventory.itemslots[i]
-
-			table.insert(bag, item)
 		end
 	end
 
-	dumptable(bag)
+	-- sort above, based on name, then value
+
+	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
+		table.insert(sortedInv, v)
+	end
+
+
+	return sortedInv
 end
 
 
