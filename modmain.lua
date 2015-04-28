@@ -104,22 +104,21 @@ function mymod:dsiGetInventoryDetails()
 	end
 
 	-- Sort the categorised items, by name then value.
-	table.sort(foodBag, sortItems)
+	--table.sort(foodBag, sortItems)
 
+	local keys = {}
+	for k in pairs(foodBag) do table.insert(keys, k) end
+	table.sort(keys, function(a, b) return foodBag[a]['name'] > foodBag[b]['name'] end)
+	for _, k in ipairs(keys) do print(k, foodBag[k]['name']) end
 
+--[[
 	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
 		table.insert(sortedInv, v)
 	end
 	return sortedInv
+--]]
 end
 
-local function sortItems(a, b)
-	if a[1] ~= b[1] then
-		return a[1] > b[1]  -- name?
-	end
-
-	return a[3] > b[3]  -- value?
-end
 
 --[[
 	local hasBackpack   = player.replica.inventory:GetOverflowContainer()
