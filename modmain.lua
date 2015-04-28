@@ -55,7 +55,7 @@ function mymod:dsiGetInventoryDetails()
 		return {}
 	end
 
-	-- Get and categorise the player's inventory.
+	-- Categorise the player's inventory.
 	for i = 1, inventory.maxslots do
 		item = inventory.itemslots[i]
 
@@ -103,16 +103,23 @@ function mymod:dsiGetInventoryDetails()
 		end
 	end
 
-	-- sort above, based on name, then value
+	-- Sort the categorised items, by name then value.
+	table.sort(foodBag, sortItems)
+
 
 	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
 		table.insert(sortedInv, v)
 	end
-
-
 	return sortedInv
 end
 
+local function sortItems(a, b)
+	if a[1] ~= b[1] then
+		return a[1] > b[1]  -- name?
+	end
+
+	return a[3] > b[3]  -- value?
+end
 
 --[[
 	local hasBackpack   = player.replica.inventory:GetOverflowContainer()
