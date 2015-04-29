@@ -103,20 +103,35 @@ function mymod:dsiGetInventoryDetails()
 		end
 	end
 
-	-- Sort the categorised items, by name then value.
-	--table.sort(foodBag, sortItems)
+	local sortingHat = {}
+	sortingHat[1]    = foodBag
+	--[[sortingHat[2]    = lightBag
+	sortingHat[3]    = weaponBag
+	sortingHat[4]    = toolBag
+	sortingHat[5]    = miscBag--]]
 
-	local keys = {}
-	for k in pairs(foodBag) do table.insert(keys, k) end
-	table.sort(keys, function(a, b)
-		if foodBag[a]['name'] ~= foodBag[b]['name'] then
-			return foodBag[a]['name'] < foodBag[b]['name']
+
+	-- Sort the categorised items, by name then value.
+	for i = 1, #sortingHat do
+		local keys = {}
+		for key in pairs(sortingHat[i]) do
+			table.insert(keys, key)
 		end
 
-		return foodBag[a]['value'] < foodBag[b]['value']
-	end)
+		local sortByNameThenValue = function(a, b)
+			if sortingHat[i][a]['name'] ~= sortingHat[i][b]['name'] then
+				return sortingHat[i][a]['name'] < sortingHat[i][b]['name']
+			end
 
-	for _, k in ipairs(keys) do print(k, foodBag[k]['name'] .. '(' .. foodBag[k]['value'] .. ')') end
+			return sortingHat[i][a]['value'] < sortingHat[i][b]['value']
+		end
+		table.sort(keys, sortByNameThenValue)
+
+		for _, key in ipairs(keys) do
+			print(sortingHat[i][key]['name'] .. '(' .. sortingHat[i][key]['value'] .. ')') 
+		end
+	end
+
 
 --[[
 	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
