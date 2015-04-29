@@ -108,8 +108,8 @@ function mymod:dsiGetInventoryDetails()
 
 	local keys = {}
 	for k in pairs(foodBag) do table.insert(keys, k) end
-	table.sort(keys, function(a, b) return foodBag[a]['name'] > foodBag[b]['name'] end)
-	for _, k in ipairs(keys) do print(k, foodBag[k]['name']) end
+		table.sort(keys, function(a, b) return foodBag[a]['value'] > foodBag[b]['value'] end)
+	for _, k in ipairs(keys) do print(k, foodBag[k]['name'] .. '(' .. foodBag[k]['value'] .. ')') end
 
 --[[
 	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
