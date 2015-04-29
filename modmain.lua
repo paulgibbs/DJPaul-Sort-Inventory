@@ -61,7 +61,7 @@ function mymod:dsiGetInventoryDetails()
 
 		if item then
 			-- Food
-			if item.components.edible then
+			if item.components.edible and item.components.perishable then
 				table.insert(foodBag, {
 					name     = item.name,
 					position = i,
