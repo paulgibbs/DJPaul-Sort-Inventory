@@ -108,7 +108,14 @@ function mymod:dsiGetInventoryDetails()
 
 	local keys = {}
 	for k in pairs(foodBag) do table.insert(keys, k) end
-		table.sort(keys, function(a, b) return foodBag[a]['value'] > foodBag[b]['value'] end)
+	table.sort(keys, function(a, b)
+		if foodBag[a]['name'] ~= foodBag[b]['name'] then
+			return foodBag[a]['name'] < foodBag[b]['name']
+		end
+
+		return foodBag[a]['value'] < foodBag[b]['value']
+	end)
+
 	for _, k in ipairs(keys) do print(k, foodBag[k]['name'] .. '(' .. foodBag[k]['value'] .. ')') end
 
 --[[
