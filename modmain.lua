@@ -132,6 +132,7 @@ function mymod:dsiGetInventoryDetails()
 		end
 	end
 
+	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 
 --[[
 	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
