@@ -31,16 +31,13 @@ local function round(number, decimalPlaces)
 	return math.floor(number * multiplier + 0.5) / multiplier
 end
 
-
-
-local mymod = {}
-GLOBAL.c_djpaul = function()
+GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 	print("Hello World.")
-	mymod.dsiGetInventoryDetails()
-end
+	dsiGetInventoryDetails()
+end)
 
 
-function mymod:dsiGetInventoryDetails()
+function dsiGetInventoryDetails()
 	print("in dsiGetInventoryDetails");
 	local player    = GLOBAL.ThePlayer
 	local inventory = player and player.components.inventory
