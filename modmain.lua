@@ -100,12 +100,13 @@ function dsiGetInventoryDetails()
 		end
 	end
 
+	local itemOffset = 1
 	local sortingHat = {}
-	sortingHat[1]    = foodBag
-	--[[sortingHat[2]    = lightBag
+	sortingHat[1]    = lightBag
+	sortingHat[2]    = toolBag
 	sortingHat[3]    = weaponBag
-	sortingHat[4]    = toolBag
-	sortingHat[5]    = miscBag--]]
+	sortingHat[4]    = foodBag
+	sortingHat[5]    = miscBag
 
 
 	-- Sort the categorised items, by name then value.
@@ -124,19 +125,29 @@ function dsiGetInventoryDetails()
 		end
 		table.sort(keys, sortByNameThenValue)
 
+
+		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
-			print(sortingHat[i][key]['name'] .. '(' .. sortingHat[i][key]['value'] .. ')') 
+			local originalSlot = sortingHat[i][key]['position']
+			local newItem      = inventory:GetItemInewSlot(originalSlot)
+			local newSlot      = itemOffset
+			local originalItem = inventory:GetItemInewSlot(newSlot)
+
+			-- Remove both items from the inventory. The items aren't deleted.
+			inventory:RemoveItem(newItem, true)
+			if (originalItem ~= nil) then
+				inventory:RemoveItem(originalItem, true)
+			end
+
+			-- Re-add both items to the inventory in their n positions.
+			inventory:GiveItem( newItem, newSlot, nil )
+			inventory:GiveItem( originalItem, originalSlot, nil )
+
+			itemOffset = itemOffset + 1;
 		end
 	end
 
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
-
---[[
-	for k, v in pairs(foodBag, lightBag, weaponBag, toolBag, miscBag) do
-		table.insert(sortedInv, v)
-	end
-	return sortedInv
---]]
 end
 
 
