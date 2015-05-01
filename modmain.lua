@@ -70,7 +70,7 @@ function dsiGetInventoryDetails()
 				table.insert(lightBag, {
 					name     = item.name,
 					position = i,
-					value    = (player:HasTag("lighter") and 1000) or item.components:GetPercent()
+					value    = (player:HasTag("lighter") and 1000) or item.components.fueled:GetPercent()
 				})
 
 			-- Weapons
