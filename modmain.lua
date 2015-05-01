@@ -129,9 +129,9 @@ function dsiGetInventoryDetails()
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
 			local originalSlot = sortingHat[i][key]['position']
-			local newItem      = inventory:GetItemInewSlot(originalSlot)
+			local newItem      = inventory:GetItemInSlot(originalSlot)
 			local newSlot      = itemOffset
-			local originalItem = inventory:GetItemInewSlot(newSlot)
+			local originalItem = inventory:GetItemInSlot(newSlot)
 
 			-- Remove both items from the inventory. The items aren't deleted.
 			inventory:RemoveItem(newItem, true)
