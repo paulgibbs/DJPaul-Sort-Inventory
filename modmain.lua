@@ -1,4 +1,4 @@
-GLOBAL.require("debugtools")
+-- GLOBAL.require("debugtools")
 
 --[[
 Round a float to the specified number of decimal places.
