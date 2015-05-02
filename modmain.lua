@@ -28,7 +28,7 @@ function dsiGetInventoryDetails()
 	end
 
 	-- Categorise the player's inventory.
-	for local i = 1, inventory.maxslots do
+	for i = 1, inventory.maxslots do
 		local item = inventory.itemslots[i]
 
 		if item then
@@ -78,19 +78,19 @@ function dsiGetInventoryDetails()
 	A smarter hat than me."
 	--]]
 	local sortingHat = {
-		lightBag
-		toolBag
-		weaponBag
-		foodBag
-		miscBag
+		lightBag,
+		toolBag,
+		weaponBag,
+		foodBag,
+		miscBag,
 	}
 
 	local itemOffset = 1
 
 	-- Sort the categorised items, by name then value.
-	for local i = 1, #sortingHat do
+	for i = 1, #sortingHat do
 		local keys = {}
-		for local key in pairs(sortingHat[i]) do
+		for key in pairs(sortingHat[i]) do
 			table.insert(keys, key)
 		end
 
