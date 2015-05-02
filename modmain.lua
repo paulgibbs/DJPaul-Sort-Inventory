@@ -60,7 +60,7 @@ function dsiGetInventoryDetails()
 			-- Food
 			if item.components.edible and item.components.perishable then
 				table.insert(foodBag, {
-					name     = item.name,
+					obj      = item,
 					position = i,
 					value    = round(item.components.edible.hungervalue)
 				})
@@ -68,7 +68,7 @@ function dsiGetInventoryDetails()
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
 				table.insert(lightBag, {
-					name     = item.name,
+					obj      = item,
 					position = i,
 					value    = (player:HasTag("lighter") and 1000) or item.components.fueled:GetPercent()
 				})
@@ -76,7 +76,7 @@ function dsiGetInventoryDetails()
 			-- Weapons
 			elseif item.components.weapon then
 				table.insert(weaponBag, {
-					name     = item.name,
+					obj      = item,
 					position = i,
 					value    = item.components.weapon.damage
 				})
@@ -84,7 +84,7 @@ function dsiGetInventoryDetails()
 			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
 				table.insert(toolBag, {
-					name     = item.name,
+					obj      = item,
 					position = i,
 					value    = item.components.finiteuses:GetUses()
 				})
@@ -92,7 +92,7 @@ function dsiGetInventoryDetails()
 			-- Everything else
 			else
 				table.insert(miscBag, {
-					name     = item.name,
+					obj      = item,
 					position = i,
 					value    = 0
 				})
@@ -117,8 +117,8 @@ function dsiGetInventoryDetails()
 		end
 
 		local sortByNameThenValue = function(a, b)
-			if sortingHat[i][a]['name'] ~= sortingHat[i][b]['name'] then
-				return sortingHat[i][a]['name'] < sortingHat[i][b]['name']
+			if sortingHat[i][a]['obj'].name ~= sortingHat[i][b]['obj'].name then
+				return sortingHat[i][a]['obj'].name < sortingHat[i][b]['obj'].name
 			end
 
 			return sortingHat[i][a]['value'] < sortingHat[i][b]['value']
