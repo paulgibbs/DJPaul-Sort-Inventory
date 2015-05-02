@@ -8,12 +8,10 @@ local function round(number, decimalPlaces)
 	return math.floor(number * multiplier + 0.5) / multiplier
 end
 
-GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	dsiGetInventoryDetails()
-end)
-
-function dsiGetInventoryDetails()
-	print("in dsiGetInventoryDetails");
+--[[
+Sorts the player's inventory into a sensible order.
+--]]
+local function dsiSortInventory()
 	local player    = GLOBAL.ThePlayer
 	local inventory = player and player.components.inventory
 	local foodBag   = {}
@@ -117,3 +115,7 @@ function dsiGetInventoryDetails()
 
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
+
+GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
+	dsiSortInventory()
+end)
