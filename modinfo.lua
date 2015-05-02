@@ -1,5 +1,4 @@
 name        = "DJPaul's Sort Inventory"
-description = "Auto-sorting inventory for Don't Starve Together."
 author      = "Paul Gibbs (DJPaul)"
 version     = "0.1"
 forumthread = ""
