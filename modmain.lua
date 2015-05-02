@@ -108,7 +108,7 @@ local function dsiSortInventory()
 		for _, key in ipairs(keys) do
 			itemOffset = itemOffset + 1;
 
-			-- Re-attach the item to the player's inventory, in it's sorted position.
+			-- Re-attach the item to the player's inventory, to its sorted position.
 			inventory:GiveItem(sortingHat[i][key].obj, itemOffset, nil)
 		end
 	end
@@ -116,6 +116,9 @@ local function dsiSortInventory()
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
+--[[
+Press "G" to sort your inventory.
+--]]
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 	dsiSortInventory()
 end)
