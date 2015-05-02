@@ -60,41 +60,36 @@ function dsiGetInventoryDetails()
 			-- Food
 			if item.components.edible and item.components.perishable then
 				table.insert(foodBag, {
-					obj      = item,
-					position = i,
-					value    = round(item.components.edible.hungervalue)
+					obj   = item,
+					value = round(item.components.edible.hungervalue)
 				})
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
 				table.insert(lightBag, {
-					obj      = item,
-					position = i,
-					value    = (player:HasTag("lighter") and 1000) or item.components.fueled:GetPercent()
+					obj   = item,
+					value = (player:HasTag("lighter") and 1000) or item.components.fueled:GetPercent()
 				})
 
 			-- Weapons
 			elseif item.components.weapon then
 				table.insert(weaponBag, {
-					obj      = item,
-					position = i,
-					value    = item.components.weapon.damage
+					obj   = item,
+					value = item.components.weapon.damage
 				})
 
 			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
 				table.insert(toolBag, {
-					obj      = item,
-					position = i,
-					value    = item.components.finiteuses:GetUses()
+					obj   = item,
+					value = item.components.finiteuses:GetUses()
 				})
 
 			-- Everything else
 			else
 				table.insert(miscBag, {
-					obj      = item,
-					position = i,
-					value    = 0
+					obj   = item,
+					value = 0
 				})
 			end
 		end
@@ -128,7 +123,7 @@ function dsiGetInventoryDetails()
 
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
-			local originalSlot = sortingHat[i][key]['position']
+			local originalSlot = inventory:GetItemSlot(sortingHat[i][key]['obj'])
 			local newItem      = inventory:GetItemInSlot(originalSlot)
 			local newSlot      = itemOffset
 			local originalItem = inventory:GetItemInSlot(newSlot)
