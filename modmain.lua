@@ -1,27 +1,4 @@
---add a post init function for the inventory component
-function dumptable(obj, indent, recurse_levels)
-	indent = indent or 1
-	local i_recurse_levels = recurse_levels or 1
-    if obj then
-		local dent = ""
-		if indent then
-			for i=1,indent do dent = dent.."\t" end
-		end
-    	if type(obj)==type("") then
-    		print(obj)
-    		return
-    	end
-        for k,v in pairs(obj) do
-            if type(v) == "table" and i_recurse_levels>0 then
-                print(dent.."K: ",k)
-                dumptable(v, indent+1, i_recurse_levels-1)
-            else
-                print(dent.."K: ",k," V: ",v)
-            end
-        end
-    end
-end
-
+GLOBAL.require("debugtools")
 
 --[[
 Round a float to the specified number of decimal places.
@@ -35,7 +12,6 @@ GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 	print("Hello World.")
 	dsiGetInventoryDetails()
 end)
-
 
 function dsiGetInventoryDetails()
 	print("in dsiGetInventoryDetails");
