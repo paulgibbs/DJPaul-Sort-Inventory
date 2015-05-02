@@ -117,20 +117,3 @@ function dsiGetInventoryDetails()
 
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
-
-
---[[
-	local hasBackpack   = player.replica.inventory:GetOverflowContainer()
-	local overflow = self:GetOverflowContainer()
-	if overflow ~= nil then
---]]
-
---[[
-[sticks][torch]
-
-1) from 2 to 1
-2) from 1 to 2
-
-First move works OK. Then item-previously-in-1 is in limbo.
-Subsequent Gi
---]]
