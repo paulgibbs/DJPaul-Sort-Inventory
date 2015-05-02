@@ -9,7 +9,6 @@ local function round(number, decimalPlaces)
 end
 
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	print("Hello World.")
 	dsiGetInventoryDetails()
 end)
 
@@ -29,8 +28,8 @@ function dsiGetInventoryDetails()
 	end
 
 	-- Categorise the player's inventory.
-	for i = 1, inventory.maxslots do
-		item = inventory.itemslots[i]
+	for local i = 1, inventory.maxslots do
+		local item = inventory.itemslots[i]
 
 		if item then
 			-- Food
@@ -71,6 +70,7 @@ function dsiGetInventoryDetails()
 		end
 	end
 
+
 	--[[
 	"Oh you may not think I'm pretty,
 	But don't judge on what you see,
@@ -88,38 +88,38 @@ function dsiGetInventoryDetails()
 	local itemOffset = 1
 
 	-- Sort the categorised items, by name then value.
-	for i = 1, #sortingHat do
+	for local i = 1, #sortingHat do
 		local keys = {}
-		for key in pairs(sortingHat[i]) do
+		for local key in pairs(sortingHat[i]) do
 			table.insert(keys, key)
 		end
 
 		local sortByNameThenValue = function(a, b)
-			if sortingHat[i][a]['obj'].name ~= sortingHat[i][b]['obj'].name then
-				return sortingHat[i][a]['obj'].name < sortingHat[i][b]['obj'].name
+			if sortingHat[i][a].obj.name ~= sortingHat[i][b].obj.name then
+				return sortingHat[i][a].obj.name < sortingHat[i][b].obj.name
 			end
 
-			return sortingHat[i][a]['value'] < sortingHat[i][b]['value']
+			return sortingHat[i][a].value < sortingHat[i][b].value
 		end
 		table.sort(keys, sortByNameThenValue)
 
 
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
-			local originalSlot = inventory:GetItemSlot(sortingHat[i][key]['obj'])
+			local originalSlot = inventory:GetItemSlot(sortingHat[i][key].obj)
 			local newItem      = inventory:GetItemInSlot(originalSlot)
 			local newSlot      = itemOffset
 			local originalItem = inventory:GetItemInSlot(newSlot)
 
 			-- Remove both items from the inventory. The items aren't deleted.
 			inventory:RemoveItem(newItem, true)
-			if (originalItem ~= nil) then
+			if (originalItem) then
 				inventory:RemoveItem(originalItem, true)
 			end
 
 			-- Re-add both items to the inventory in their new positions.
 			inventory:GiveItem(newItem, newSlot, nil)
-			if (originalItem ~= nil) then
+			if (originalItem) then
 				inventory:GiveItem(originalItem, originalSlot, nil)
 			end
 
