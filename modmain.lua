@@ -71,14 +71,21 @@ function dsiGetInventoryDetails()
 		end
 	end
 
-	local itemOffset = 1
-	local sortingHat = {}
-	sortingHat[1]    = lightBag
-	sortingHat[2]    = toolBag
-	sortingHat[3]    = weaponBag
-	sortingHat[4]    = foodBag
-	sortingHat[5]    = miscBag
+	--[[
+	"Oh you may not think I'm pretty,
+	But don't judge on what you see,
+	I'll eat myself if you can find
+	A smarter hat than me."
+	--]]
+	local sortingHat = {
+		lightBag
+		toolBag
+		weaponBag
+		foodBag
+		miscBag
+	}
 
+	local itemOffset = 1
 
 	-- Sort the categorised items, by name then value.
 	for i = 1, #sortingHat do
