@@ -140,9 +140,9 @@ function dsiGetInventoryDetails()
 			end
 
 			-- Re-add both items to the inventory in their new positions.
-			inventory:GiveItem( newItem, newSlot, nil )
+			inventory:GiveItem(newItem, newSlot, nil)
 			if (originalItem ~= nil) then
-				inventory:GiveItem( originalItem, originalSlot, nil )
+				inventory:GiveItem(originalItem, originalSlot, nil)
 			end
 
 			itemOffset = itemOffset + 1;
