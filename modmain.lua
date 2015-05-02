@@ -139,7 +139,7 @@ function dsiGetInventoryDetails()
 				inventory:RemoveItem(originalItem, true)
 			end
 
-			-- Re-add both items to the inventory in their n positions.
+			-- Re-add both items to the inventory in their new positions.
 			inventory:GiveItem( newItem, newSlot, nil )
 			inventory:GiveItem( originalItem, originalSlot, nil )
 
