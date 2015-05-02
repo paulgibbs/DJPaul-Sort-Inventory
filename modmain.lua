@@ -88,7 +88,7 @@ function dsiGetInventoryDetails()
 		miscBag,
 	}
 
-	local itemOffset = 1
+	local itemOffset = 0
 
 	-- Sort the categorised items, by name then value.
 	for i = 1, #sortingHat do
@@ -106,21 +106,12 @@ function dsiGetInventoryDetails()
 		end
 		table.sort(keys, sortByNameThenValue)
 
-
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
-			local originalSlot = inventory:GetItemSlot(sortingHat[i][key].obj)
-			local newItem      = inventory:GetItemInSlot(originalSlot)
-			local newSlot      = itemOffset
-			local originalItem = inventory:GetItemInSlot(newSlot)
-
-			-- Re-attach both items to the inventory in their new positions.
-			inventory:GiveItem(newItem, newSlot, nil)
-			if (originalItem) then
-				inventory:GiveItem(originalItem, originalSlot, nil)
-			end
-
 			itemOffset = itemOffset + 1;
+
+			-- Re-attach the item to the player's inventory, in it's sorted position.
+			inventory:GiveItem(sortingHat[i][key].obj, itemOffset, nil)
 		end
 	end
 
