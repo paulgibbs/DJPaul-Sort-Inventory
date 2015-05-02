@@ -68,6 +68,9 @@ function dsiGetInventoryDetails()
 				})
 			end
 		end
+
+		-- Detach the item from the player's inventory.
+		inventory:RemoveItem(item, true)
 	end
 
 
@@ -111,13 +114,7 @@ function dsiGetInventoryDetails()
 			local newSlot      = itemOffset
 			local originalItem = inventory:GetItemInSlot(newSlot)
 
-			-- Remove both items from the inventory. The items aren't deleted.
-			inventory:RemoveItem(newItem, true)
-			if (originalItem) then
-				inventory:RemoveItem(originalItem, true)
-			end
-
-			-- Re-add both items to the inventory in their new positions.
+			-- Re-attach both items to the inventory in their new positions.
 			inventory:GiveItem(newItem, newSlot, nil)
 			if (originalItem) then
 				inventory:GiveItem(originalItem, originalSlot, nil)
