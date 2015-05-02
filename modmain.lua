@@ -88,7 +88,7 @@ local function dsiSortInventory()
 
 	local itemOffset = 0
 
-	-- Sort the categorised items, by name then value.
+	-- Sort the categorised items by name then value.
 	for i = 1, #sortingHat do
 		local keys = {}
 		for key in pairs(sortingHat[i]) do
