@@ -95,14 +95,13 @@ local function dsiSortInventory()
 			table.insert(keys, key)
 		end
 
-		local sortByNameThenValue = function(a, b)
+		table.sort(keys, function(a, b)
 			if sortingHat[i][a].obj.name ~= sortingHat[i][b].obj.name then
 				return sortingHat[i][a].obj.name < sortingHat[i][b].obj.name
 			end
 
 			return sortingHat[i][a].value < sortingHat[i][b].value
-		end
-		table.sort(keys, sortByNameThenValue)
+		end)
 
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
 		for _, key in ipairs(keys) do
