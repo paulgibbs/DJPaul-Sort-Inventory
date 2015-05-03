@@ -41,14 +41,14 @@ local function dsiSortInventory()
 			if item.components.edible and (item.components.perishable or itemIsGear) then
 				table.insert(foodBag, {
 					obj   = item,
-					value = (itemIsGear and 1000) or round(item.components.edible.hungervalue)
+					value = item.components.edible.hungervalue
 				})
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
 				table.insert(lightBag, {
 					obj   = item,
-					value = (itemIsWLighter and 1000) or item.components.fueled:GetPercent()
+					value = item.components.fueled:GetPercent()
 				})
 
 			-- Tools
