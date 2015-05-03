@@ -32,18 +32,23 @@ local function dsiSortInventory()
 		local item = inventory.itemslots[i]
 
 		if item then
+			-- Some items are odd and require special handling.
+			local itemIsGear     = item.components.edible and item.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
+			local itemIsWLighter = item.components.lighter and item.components.fueled and player:HasTag("lighter")
+
+
 			-- Food
-			if item.components.edible and item.components.perishable then
+			if item.components.edible and (item.components.perishable or itemIsLighter) then
 				table.insert(foodBag, {
 					obj   = item,
-					value = round(item.components.edible.hungervalue)
+					value = (itemIsGear and 1000) or round(item.components.edible.hungervalue)
 				})
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
 				table.insert(lightBag, {
 					obj   = item,
-					value = (player:HasTag("lighter") and 1000) or item.components.fueled:GetPercent()
+					value = (itemIsWLighter and 1000) or item.components.fueled:GetPercent()
 				})
 
 			-- Weapons
