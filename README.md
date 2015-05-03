@@ -3,6 +3,9 @@ DJPaul's Sort Inventory for [Don't Starve Together](http://dontstarvetogether.co
 
 Automatically sorts your inventory into a sensible order.
 
+## Installation
+[Download the latest release](https://github.com/paulgibbs/DJPaul-Sort-Inventory/releases) and extract it into `\Steam\SteamApps\common\Don't Starve Together Beta\mods\`.
+
 ## Usage
 Press the `G` key to sort your inventory.
 
