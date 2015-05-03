@@ -2,9 +2,6 @@
 -- GLOBAL.require("debugkeys")
 -- GLOBAL.require("debugtools")
 
---[[
-Round a float to the specified number of decimal places.
---]]
 --- Round a float to the specified number of decimal places.
 -- @param number
 -- @param decimalPlaces
@@ -14,9 +11,24 @@ local function round(number, decimalPlaces)
 	return math.floor(number * multiplier + 0.5) / multiplier
 end
 
---[[
-Sorts the player's inventory into a sensible order.
---]]
+--- Sort through the bag and return the items' new offsets.
+-- @param items
+-- @param bag Bag ID
+-- @param offset
+-- @return Sorted item offsets
+local function dsiSortItems(items, bag, offset)
+	table.sort(items, function(a, b)
+		if bag[offset][a].obj.name ~= bag[offset][b].obj.name then
+			return bag[offset][a].obj.name < bag[offset][b].obj.name
+		end
+
+		return bag[offset][a].value < bag[offset][b].value
+	end)
+
+	return items
+end
+
+--- Sorts the player's inventory into a sensible order.
 local function dsiSortInventory()
 	local player    = GLOBAL.ThePlayer
 	local inventory = player and player.components.inventory
@@ -107,15 +119,9 @@ local function dsiSortInventory()
 			table.insert(keys, key)
 		end
 
-		table.sort(keys, function(a, b)
-			if sortingHat[i][a].obj.name ~= sortingHat[i][b].obj.name then
-				return sortingHat[i][a].obj.name < sortingHat[i][b].obj.name
-			end
-
-			return sortingHat[i][a].value < sortingHat[i][b].value
-		end)
-
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
+		keys = dsiSortItems(keys, sortingHat, i);
+
 		for _, key in ipairs(keys) do
 			itemOffset = itemOffset + 1;
 
