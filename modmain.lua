@@ -18,11 +18,21 @@ end
 -- @return Sorted item offsets
 local function dsiSortItems(items, bag, offset)
 	table.sort(items, function(a, b)
-		if bag[offset][a].obj.name ~= bag[offset][b].obj.name then
-			return bag[offset][a].obj.name < bag[offset][b].obj.name
-		end
 
-		return bag[offset][a].value < bag[offset][b].value
+		-- Sort by name then value.
+		if bag[offset].sortBy == 'name' then
+			if bag[offset].contents[a].obj.name ~= bag[offset].contents[b].obj.name then
+				return bag[offset].contents[a].obj.name < bag[offset].contents[b].obj.name
+			end
+			return bag[offset].contents[a].value < bag[offset].contents[b].value
+
+		-- Sort by value then name.
+		else
+			if bag[offset].contents[a].value ~= bag[offset].contents[b].value then
+				return bag[offset].contents[a].value < bag[offset].contents[b].value
+			end
+			return bag[offset].contents[a].obj.name < bag[offset].contents[b].obj.name
+		end
 	end)
 
 	return items
@@ -32,12 +42,11 @@ end
 local function dsiSortInventory()
 	local player    = GLOBAL.ThePlayer
 	local inventory = player and player.components.inventory
-	local foodBag   = {}
-	local lightBag  = {}
-	local toolBag   = {}
-	local weaponBag = {}
-	local miscBag   = {}
-	local sortedInv = {}
+	local foodBag   = { sortBy = 'value', contents = {} }
+	local lightBag  = { sortBy = 'value', contents = {} }
+	local toolBag   = { sortBy = 'name',  contents = {} }
+	local weaponBag = { sortBy = 'value', contents = {} }
+	local miscBag   = { sortBy = 'name',  contents = {} }
 
 	if not inventory then
 		return
@@ -52,38 +61,37 @@ local function dsiSortInventory()
 			local itemIsGear     = item.components.edible and item.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
 			local itemIsWLighter = item.components.lighter and item.components.fueled and player:HasTag("lighter")
 
-
 			-- Food
 			if item.components.edible and (item.components.perishable or itemIsGear) then
-				table.insert(foodBag, {
+				table.insert(foodBag.contents, {
 					obj   = item,
 					value = item.components.edible.hungervalue
 				})
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
-				table.insert(lightBag, {
+				table.insert(lightBag.contents, {
 					obj   = item,
 					value = item.components.fueled:GetPercent()
 				})
 
 			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
-				table.insert(toolBag, {
+				table.insert(toolBag.contents, {
 					obj   = item,
 					value = item.components.finiteuses:GetUses()
 				})
 
 			-- Weapons (MUST be below the tools block)
 			elseif item.components.weapon then
-				table.insert(weaponBag, {
+				table.insert(weaponBag.contents, {
 					obj   = item,
 					value = item.components.weapon.damage
 				})
 
 			-- Everything else
 			else
-				table.insert(miscBag, {
+				table.insert(miscBag.contents, {
 					obj   = item,
 					value = 0
 				})
@@ -115,7 +123,7 @@ local function dsiSortInventory()
 	-- Sort the categorised items.
 	for i = 1, #sortingHat do
 		local keys = {}
-		for key in pairs(sortingHat[i]) do
+		for key in pairs(sortingHat[i].contents) do
 			table.insert(keys, key)
 		end
 
@@ -126,7 +134,7 @@ local function dsiSortInventory()
 			itemOffset = itemOffset + 1;
 
 			-- Re-attach the item to the player's inventory, to its sorted position.
-			inventory:GiveItem(sortingHat[i][key].obj, itemOffset, nil)
+			inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
 		end
 	end
 
