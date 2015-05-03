@@ -5,6 +5,10 @@
 --[[
 Round a float to the specified number of decimal places.
 --]]
+--- Round a float to the specified number of decimal places.
+-- @param number
+-- @param decimalPlaces
+-- @return Rounded number
 local function round(number, decimalPlaces)
 	local multiplier = 10^(decimalPlaces or 1)
 	return math.floor(number * multiplier + 0.5) / multiplier
@@ -95,7 +99,8 @@ local function dsiSortInventory()
 
 	local itemOffset = 0
 
-	-- Sort the categorised items by name then value.
+
+	-- Sort the categorised items.
 	for i = 1, #sortingHat do
 		local keys = {}
 		for key in pairs(sortingHat[i]) do
@@ -122,9 +127,7 @@ local function dsiSortInventory()
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
---[[
-Press "G" to sort your inventory.
---]]
+--- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 	dsiSortInventory()
 end)
