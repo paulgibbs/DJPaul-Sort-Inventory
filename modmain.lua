@@ -1,3 +1,5 @@
+-- GLOBAL.CHEATS_ENABLED = true
+-- GLOBAL.require("debugkeys")
 -- GLOBAL.require("debugtools")
 
 --[[
