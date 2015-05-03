@@ -38,7 +38,7 @@ local function dsiSortInventory()
 
 
 			-- Food
-			if item.components.edible and (item.components.perishable or itemIsLighter) then
+			if item.components.edible and (item.components.perishable or itemIsWLighter) then
 				table.insert(foodBag, {
 					obj   = item,
 					value = (itemIsGear and 1000) or round(item.components.edible.hungervalue)
