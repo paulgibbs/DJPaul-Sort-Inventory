@@ -40,7 +40,7 @@ local function dsiSortInventory()
 	local sortedInv = {}
 
 	if not inventory then
-		return {}
+		return
 	end
 
 	-- Categorise the player's inventory.
