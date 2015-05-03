@@ -51,18 +51,18 @@ local function dsiSortInventory()
 					value = (itemIsWLighter and 1000) or item.components.fueled:GetPercent()
 				})
 
-			-- Weapons
-			elseif item.components.weapon then
-				table.insert(weaponBag, {
-					obj   = item,
-					value = item.components.weapon.damage
-				})
-
 			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
 				table.insert(toolBag, {
 					obj   = item,
 					value = item.components.finiteuses:GetUses()
+				})
+
+			-- Weapons (MUST be below the tools block)
+			elseif item.components.weapon then
+				table.insert(weaponBag, {
+					obj   = item,
+					value = item.components.weapon.damage
 				})
 
 			-- Everything else
