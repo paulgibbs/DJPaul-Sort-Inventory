@@ -2,14 +2,6 @@
 -- GLOBAL.require("debugkeys")
 -- GLOBAL.require("debugtools")
 
---- Round a float to the specified number of decimal places.
--- @param number
--- @param decimalPlaces
--- @return Rounded number
-local function round(number, decimalPlaces)
-	local multiplier = 10^(decimalPlaces or 1)
-	return math.floor(number * multiplier + 0.5) / multiplier
-end
 
 --- Sort through the bag and return the items' new offsets.
 -- @param items
