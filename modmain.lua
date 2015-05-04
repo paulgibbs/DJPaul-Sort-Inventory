@@ -16,12 +16,12 @@ local function dsiSortItems(items, bag, offset)
 			if bag[offset].contents[a].obj.name ~= bag[offset].contents[b].obj.name then
 				return bag[offset].contents[a].obj.name < bag[offset].contents[b].obj.name
 			end
-			return bag[offset].contents[a].value < bag[offset].contents[b].value
+			return bag[offset].contents[a].value > bag[offset].contents[b].value
 
 		-- Sort by value then name.
 		else
 			if bag[offset].contents[a].value ~= bag[offset].contents[b].value then
-				return bag[offset].contents[a].value < bag[offset].contents[b].value
+				return bag[offset].contents[a].value > bag[offset].contents[b].value
 			end
 			return bag[offset].contents[a].obj.name < bag[offset].contents[b].obj.name
 		end
