@@ -32,13 +32,14 @@ end
 
 --- Sorts the player's inventory into a sensible order.
 local function dsiSortInventory()
-	local player    = GLOBAL.ThePlayer
-	local inventory = player and player.components.inventory
-	local foodBag   = { sortBy = 'value', contents = {} }
-	local lightBag  = { sortBy = 'value', contents = {} }
-	local toolBag   = { sortBy = 'name',  contents = {} }
-	local weaponBag = { sortBy = 'value', contents = {} }
-	local miscBag   = { sortBy = 'name',  contents = {} }
+	local player       = GLOBAL.ThePlayer
+	local inventory    = player and player.components.inventory
+	local foodBag      = { sortBy = 'value', contents = {} }
+	local lightBag     = { sortBy = 'value', contents = {} }
+	local toolBag      = { sortBy = 'name',  contents = {} }
+	local weaponBag    = { sortBy = 'value', contents = {} }
+	local miscBag      = { sortBy = 'name',  contents = {} }
+	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 
 	if not inventory then
 		return
@@ -57,7 +58,7 @@ local function dsiSortInventory()
 			if item.components.edible and (item.components.perishable or itemIsGear) then
 				table.insert(foodBag.contents, {
 					obj   = item,
-					value = item.components.edible.hungervalue
+					value = isPlayerHurt and item.components.edible.healthvalue or item.components.edible.hungervalue
 				})
 
 			-- Light
