@@ -21,7 +21,7 @@ configuration_options = {
 		options = (function()
 			local values = {}
 			for i = 1, 10 do
-				values[#values+1] = { description = i + 0, data = i }
+				values[#values + 1] = { description = i + 0, data = i }
 			end
 
 			return values
