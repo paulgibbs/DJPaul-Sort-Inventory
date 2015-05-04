@@ -40,6 +40,7 @@ local function dsiSortInventory()
 	local weaponBag    = { sortBy = 'value', contents = {} }
 	local miscBag      = { sortBy = 'name',  contents = {} }
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
+	local maxLights    = GetModConfigData("dsiLightCount")
 
 	if not inventory then
 		return
@@ -63,7 +64,14 @@ local function dsiSortInventory()
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
-				table.insert(lightBag.contents, {
+				local bag = lightBag
+
+				-- If bag has more lights than dsiLightCount, store the extras in miscBag.
+				if #lightBag.contents >= maxLights then
+					bag = miscBag
+				end
+
+				table.insert(bag.contents, {
 					obj   = item,
 					value = item.components.fueled:GetPercent()
 				})
