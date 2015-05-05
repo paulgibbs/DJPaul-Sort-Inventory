@@ -31,8 +31,8 @@ local function dsiSortItems(items, bag, offset)
 end
 
 --- Sorts the player's inventory into a sensible order.
-local function dsiSortInventory()
-	local player       = GLOBAL.ThePlayer
+-- @param player Sort this player's inventory.
+local function dsiSortInventory(player)
 	local inventory    = player and player.components.inventory
 	local foodBag      = { sortBy = 'value', contents = {} }
 	local lightBag     = { sortBy = 'value', contents = {} }
@@ -144,5 +144,7 @@ end
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	dsiSortInventory()
+	if GLOBAL.TheWorld.ismastersim then
+		dsiSortInventory(GLOBAL.ThePlayer)
+	end
 end)
