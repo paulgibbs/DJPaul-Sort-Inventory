@@ -47,8 +47,8 @@ local function dsiSortInventory()
 	end
 
 	-- Categorise the player's inventory.
-	for i = 1, inventory.maxslots do
-		local item = inventory.itemslots[i]
+	for i = 1, inventory:GetNumSlots() do
+		local item = inventory:GetItemInSlot(i)
 
 		if item then
 			-- Some items are odd and require special handling.
@@ -100,7 +100,6 @@ local function dsiSortInventory()
 		end
 
 		-- Detach the item from the player's inventory.
-		inventory:RemoveItem(item, true)
 	end
 
 
