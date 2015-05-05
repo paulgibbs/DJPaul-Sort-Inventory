@@ -100,7 +100,6 @@ local function dsiSortInventory()
 		end
 
 		-- Detach the item from the player's inventory.
-	--	inventory:RemoveItem(item, true) -- DJPAULTODO doesn't exist in replica
 	end
 
 
@@ -135,11 +134,11 @@ local function dsiSortInventory()
 			itemOffset = itemOffset + 1;
 
 			-- Re-attach the item to the player's inventory, to its sorted position.
-			-- inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil) -- DJPAULTODO doesn't exist in replica
+			inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
 		end
 	end
 
-	-- player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble") -- DJPAULTODO doesn't work.
+	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
 --- Press "G" to sort your inventory.
