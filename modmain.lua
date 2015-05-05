@@ -33,13 +33,13 @@ end
 --- Sorts the player's inventory into a sensible order.
 local function dsiSortInventory()
 	local player       = GLOBAL.ThePlayer
-	local inventory    = player and player.components.inventory
+	local inventory    = player and player.replica.inventory
 	local foodBag      = { sortBy = 'value', contents = {} }
 	local lightBag     = { sortBy = 'value', contents = {} }
 	local toolBag      = { sortBy = 'name',  contents = {} }
 	local weaponBag    = { sortBy = 'value', contents = {} }
 	local miscBag      = { sortBy = 'name',  contents = {} }
-	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
+	local isPlayerHurt = (player.replica.health:GetPercent() * 100) <= 30
 	local maxLights    = GetModConfigData("dsiLightCount")
 
 	if not inventory then
