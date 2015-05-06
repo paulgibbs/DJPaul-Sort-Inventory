@@ -142,9 +142,21 @@ local function dsiSortInventory(player)
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
+-- Inventory must be sorted server-side, so listen for a RPC.
+AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player)
+	dsiSortInventory(player)
+end)
+
+
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
+
+	-- Server-side
 	if GLOBAL.TheWorld.ismastersim then
 		dsiSortInventory(GLOBAL.ThePlayer)
+
+	-- Client-side
+	else
+		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"])
 	end
 end)
