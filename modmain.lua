@@ -152,7 +152,7 @@ end)
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 
 	-- Server-side
-	if GLOBAL.TheWorld.ismastersim then
+	if GLOBAL.TheNet:GetIsServer() then
 		dsiSortInventory(GLOBAL.ThePlayer)
 
 	-- Client-side
