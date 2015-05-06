@@ -10,7 +10,7 @@ reign_of_giants_compatible = false
 dst_compatible             = true
 priority                   = 0  -- Relative mod load order
 
-client_only_mod         = true
+client_only_mod         = false
 all_clients_require_mod = false
 
 configuration_options = {
