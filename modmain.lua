@@ -32,7 +32,7 @@ end
 
 --- Sorts the player's inventory into a sensible order.
 -- @param player Sort this player's inventory.
-local function dsiSortInventory(player)
+local function dsiSortInventory(player, maxLights)
 	local inventory    = player and player.components.inventory
 	local foodBag      = { sortBy = 'value', contents = {} }
 	local lightBag     = { sortBy = 'value', contents = {} }
@@ -40,7 +40,6 @@ local function dsiSortInventory(player)
 	local weaponBag    = { sortBy = 'value', contents = {} }
 	local miscBag      = { sortBy = 'name',  contents = {} }
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
-	local maxLights    = GetModConfigData("dsiLightCount")
 
 	if not inventory then
 		return
@@ -143,20 +142,21 @@ local function dsiSortInventory(player)
 end
 
 -- Inventory must be sorted server-side, so listen for a RPC.
-AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player)
-	dsiSortInventory(player)
+AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights)
+	dsiSortInventory(player, maxLights)
 end)
 
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
+	local maxLights = GetModConfigData("dsiLightCount")
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
-		dsiSortInventory(GLOBAL.ThePlayer)
+		dsiSortInventory(GLOBAL.ThePlayer, maxLights)
 
 	-- Client-side
 	else
-		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"])
+		GLOBAL.SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
 	end
 end)
