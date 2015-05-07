@@ -41,7 +41,7 @@ local function dsiSortInventory(player, maxLights)
 	local miscBag      = { sortBy = 'name',  contents = {} }
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 
-	if not inventory then
+	if player:HasTag("playerghost") or not inventory then
 		return
 	end
 
