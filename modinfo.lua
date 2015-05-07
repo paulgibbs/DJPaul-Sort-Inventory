@@ -17,7 +17,7 @@ configuration_options = {
 	{
 		default = 2,
 		label   = "Number of torches",
-		name    = "dsiLightCount",
+		name    = "dsiMaxLights",
 		options = (function()
 			local values = {}
 			for i = 1, 10 do
