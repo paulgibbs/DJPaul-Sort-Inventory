@@ -142,25 +142,22 @@ local function dsiSortInventory(player, maxLights)
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
---- Inventory must be sorted server-side, so listen for a RPC.
-AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, args)
-	if not args.maxLights then
-	return
-
-	dsiSortInventory(player, tonumber(args.maxLights))
+-- Inventory must be sorted server-side, so listen for a RPC.
+AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights)
+	dsiSortInventory(player, maxLights)
 end)
 
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	local args = { maxLights = GetModConfigData("dsiMaxLights") }
+	local maxLights = GetModConfigData("dsiMaxLights")
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
-		dsiSortInventory(GLOBAL.ThePlayer, args)
+		dsiSortInventory(GLOBAL.ThePlayer, maxLights)
 
 	-- Client-side
 	else
-		GLOBAL.SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], args)
+		GLOBAL.SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
 	end
 end)
