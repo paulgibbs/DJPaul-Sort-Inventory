@@ -150,7 +150,7 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	local maxLights = GetModConfigData("dsiMaxLights")
+	local maxLights = GLOBAL.tonumber(GetModConfigData("dsiMaxLights"))
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
