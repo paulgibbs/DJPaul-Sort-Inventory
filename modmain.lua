@@ -142,7 +142,7 @@ local function dsiSortInventory(player, maxLights)
 	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
--- Inventory must be sorted server-side, so listen for a RPC.
+--- Inventory must be sorted server-side, so listen for a RPC.
 AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights)
 	dsiSortInventory(player, maxLights)
 end)
