@@ -32,6 +32,7 @@ end
 
 --- Sorts the player's inventory into a sensible order.
 -- @param player Sort this player's inventory.
+-- @param maxLights Max. number of torches to sort.
 local function dsiSortInventory(player, maxLights)
 	local inventory    = player and player.components.inventory
 	local foodBag      = { sortBy = 'value', contents = {} }
