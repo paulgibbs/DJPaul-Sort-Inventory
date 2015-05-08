@@ -146,7 +146,7 @@ AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, args)
 	if not args.maxLights then
 	return
 
-	dsiSortInventory(player, tonumber(args.maxLights))
+	dsiSortInventory(player, GLOBAL.tonumber(args.maxLights))
 end)
 
 
