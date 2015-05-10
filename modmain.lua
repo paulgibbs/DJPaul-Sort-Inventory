@@ -69,7 +69,7 @@ local function sortInventory(player, maxLights)
 				bag  = lightBag
 				sort = item.components.fueled:GetPercent()
 
-				-- If bag has more lights than dsiMaxLights, store the extras in miscBag.
+				-- If bag has more lights than maxLights, store the extras in miscBag.
 				if #lightBag.contents >= maxLights then
 					bag = miscBag
 				end
@@ -142,7 +142,7 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	local maxLights = GLOBAL.tonumber(GetModConfigData("dsiMaxLights"))
+	local maxLights = GLOBAL.tonumber(GetModConfigData("maxLights"))
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
