@@ -51,52 +51,43 @@ local function dsiSortInventory(player, maxLights)
 		local item = inventory:GetItemInSlot(i)
 
 		if item then
+			local bag  = miscBag
+			local sort = 0
+
 			-- Some items are odd and require special handling.
 			local itemIsGear     = item.components.edible and item.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
 			local itemIsWLighter = item.components.lighter and item.components.fueled and player:HasTag("lighter")
 
+
 			-- Food
 			if item.components.edible and (item.components.perishable or itemIsGear) then
-				table.insert(foodBag.contents, {
-					obj   = item,
-					value = isPlayerHurt and item.components.edible.healthvalue or item.components.edible.hungervalue
-				})
+				bag  = foodBag
+				sort = isPlayerHurt and item.components.edible.healthvalue or item.components.edible.hungervalue
 
 			-- Light
 			elseif item.components.lighter and item.components.fueled then
-				local bag = lightBag
+				bag  = lightBag
+				sort = item.components.fueled:GetPercent()
 
 				-- If bag has more lights than dsiMaxLights, store the extras in miscBag.
 				if #lightBag.contents >= maxLights then
 					bag = miscBag
 				end
 
-				table.insert(bag.contents, {
-					obj   = item,
-					value = item.components.fueled:GetPercent()
-				})
-
 			-- Tools
 			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
-				table.insert(toolBag.contents, {
-					obj   = item,
-					value = item.components.finiteuses:GetUses()
-				})
+				bag  = toolBag
+				sort = item.components.finiteuses:GetUses()
 
 			-- Weapons (MUST be below the tools block)
 			elseif item.components.weapon then
-				table.insert(weaponBag.contents, {
-					obj   = item,
-					value = item.components.weapon.damage
-				})
-
-			-- Everything else
-			else
-				table.insert(miscBag.contents, {
-					obj   = item,
-					value = 0
-				})
+				bag  = weaponBag
+				sort = item.components.weapon.damage
 			end
+
+				obj   = item,
+				value = sort
+			})
 		end
 
 		-- Detach the item from the player's inventory.
