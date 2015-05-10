@@ -8,7 +8,7 @@
 -- @param bag Bag ID
 -- @param offset
 -- @return Sorted item offsets
-local function dsiSortItems(items, bag, offset)
+local function sortItems(items, bag, offset)
 	table.sort(items, function(a, b)
 
 		-- Sort by name then value.
@@ -33,7 +33,7 @@ end
 --- Sorts the player's inventory into a sensible order.
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
-local function dsiSortInventory(player, maxLights)
+local function sortInventory(player, maxLights)
 	local inventory    = player and player.components.inventory
 	local foodBag      = { sortBy = 'value', contents = {} }
 	local lightBag     = { sortBy = 'value', contents = {} }
@@ -121,7 +121,7 @@ local function dsiSortInventory(player, maxLights)
 		end
 
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
-		keys = dsiSortItems(keys, sortingHat, i);
+		keys = sortItems(keys, sortingHat, i);
 
 		for _, key in ipairs(keys) do
 			itemOffset = itemOffset + 1;
@@ -136,7 +136,7 @@ end
 
 --- Inventory must be sorted server-side, so listen for a RPC.
 AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights)
-	dsiSortInventory(player, maxLights)
+	sortInventory(player, maxLights)
 end)
 
 
@@ -146,7 +146,7 @@ GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
-		dsiSortInventory(GLOBAL.ThePlayer, maxLights)
+		sortInventory(GLOBAL.ThePlayer, maxLights)
 
 	-- Client-side
 	else
