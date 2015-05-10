@@ -8,7 +8,8 @@ api_version                = 10  --DST api version
 dont_starve_compatible     = false
 reign_of_giants_compatible = false
 dst_compatible             = true
-priority                   = 0  -- Relative mod load order
+priority                   = 0  -- Relative load order
+server_filter_tags         = { "djpaul", "sort inventory" }
 
 client_only_mod         = false
 all_clients_require_mod = false
