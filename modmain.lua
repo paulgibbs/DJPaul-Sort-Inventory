@@ -30,6 +30,35 @@ local function sortItems(items, bag, offset)
 	return items
 end
 
+--- Is the item a food for the current player?
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsFood(inst)
+	local itemIsGear = inst.components.edible and inst.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
+	return inst.components.edible and (inst.components.perishable or itemIsGear)
+end
+
+--- Is the item a light?
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsLight(inst)
+	return inst.components.lighter and inst.components.fueled
+end
+
+--- Is the item a tool?
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsTool(inst)
+	return inst.components.tool and inst.components.equippable and inst.components.finiteuses
+end
+
+--- Is the item a weapon?
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsWeapon(inst)
+	return inst.components.weapon and true
+end
+
 --- Sorts the player's inventory into a sensible order.
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
@@ -54,17 +83,13 @@ local function sortInventory(player, maxLights)
 			local bag  = miscBag
 			local sort = 0
 
-			-- Some items are odd and require special handling.
-			local itemIsGear     = item.components.edible and item.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
-
-
 			-- Food
-			if item.components.edible and (item.components.perishable or itemIsGear) then
+			if itemIsFood(item) then
 				bag  = foodBag
 				sort = isPlayerHurt and item.components.edible.healthvalue or item.components.edible.hungervalue
 
 			-- Light
-			elseif item.components.lighter and item.components.fueled then
+			elseif itemIsLight(item) then
 				bag  = lightBag
 				sort = item.components.fueled:GetPercent()
 
@@ -74,12 +99,12 @@ local function sortInventory(player, maxLights)
 				end
 
 			-- Tools
-			elseif item.components.tool and item.components.equippable and item.components.finiteuses then
+			elseif itemIsTool(item) then
 				bag  = toolBag
 				sort = item.components.finiteuses:GetUses()
 
 			-- Weapons (MUST be below the tools block)
-			elseif item.components.weapon then
+			elseif itemIsWeapon(item) then
 				bag  = weaponBag
 				sort = item.components.weapon.damage
 			end
