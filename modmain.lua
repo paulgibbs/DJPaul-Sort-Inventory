@@ -85,6 +85,7 @@ local function dsiSortInventory(player, maxLights)
 				sort = item.components.weapon.damage
 			end
 
+			table.insert(bag.contents, {
 				obj   = item,
 				value = sort
 			})
