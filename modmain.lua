@@ -56,7 +56,6 @@ local function sortInventory(player, maxLights)
 
 			-- Some items are odd and require special handling.
 			local itemIsGear     = item.components.edible and item.components.edible.foodtype == GLOBAL.FOODTYPE.GEARS
-			local itemIsWLighter = item.components.lighter and item.components.fueled and player:HasTag("lighter")
 
 
 			-- Food
