@@ -64,6 +64,43 @@ local function itemIsWeapon(inst)
 	return inst.components.weapon and true
 end
 
+--- Is the item a priority resource?
+-- These items were manually selected from a frequency analysis of recipe components in the game
+-- as of 10th March 2015. The idea is that the player will care most about having a quantity of
+-- these items (because they are used commonly in item recipes), so let's sort them together.
+--
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsPriorityResource(inst)
+	-- Highest frequency to lowest fequency
+	local items = {
+		"Twigs",
+		"Nightmare Fuel",
+		"Rope",
+		"Gold Nugget",
+		"Boards",
+		"Silk",
+		"Papyrus",
+		"Cut Grass",
+		"Thulecite",
+		"Cut Stone",
+		"Flint",
+		"Log",
+		"Living Log",
+		"Pig Skin",
+		"Thulecite Fragments"
+	}
+
+	for i = 1, #items do
+		local keys = {}
+		if items[i] == inst.name then
+			return true
+		end
+	end
+
+	return false
+end
+
 --- Sorts the player's inventory into a sensible order.
 --
 -- @param player Sort this player's inventory.
