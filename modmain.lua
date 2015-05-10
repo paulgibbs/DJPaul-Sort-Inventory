@@ -4,6 +4,7 @@
 
 
 --- Sort through the bag and return the items' new offsets.
+--
 -- @param items
 -- @param bag Bag ID
 -- @param offset
@@ -31,6 +32,7 @@ local function sortItems(items, bag, offset)
 end
 
 --- Is the item a food for the current player?
+--
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsFood(inst)
@@ -39,6 +41,7 @@ local function itemIsFood(inst)
 end
 
 --- Is the item a light?
+--
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsLight(inst)
@@ -46,6 +49,7 @@ local function itemIsLight(inst)
 end
 
 --- Is the item a tool?
+--
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsTool(inst)
@@ -53,6 +57,7 @@ local function itemIsTool(inst)
 end
 
 --- Is the item a weapon?
+--
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsWeapon(inst)
@@ -60,6 +65,7 @@ local function itemIsWeapon(inst)
 end
 
 --- Sorts the player's inventory into a sensible order.
+--
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
 local function sortInventory(player, maxLights)
