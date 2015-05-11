@@ -88,7 +88,7 @@ local function itemIsPriorityResource(inst)
 		"Log",
 		"Living Log",
 		"Pig Skin",
-		"Thulecite Fragments"
+		"Thulecite Fragments",
 	}
 
 	for i = 1, #items do
