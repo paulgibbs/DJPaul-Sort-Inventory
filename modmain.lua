@@ -106,7 +106,8 @@ end
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
 local function sortInventory(player, maxLights)
-	local inventory    = player and player.components.inventory
+	local inventory    = player and player.components.inventory or nil
+	local backpack     = inventory and inventory:GetOverflowContainer() or nil
 	local foodBag      = { sortBy = 'value', contents = {} }
 	local lightBag     = { sortBy = 'value', contents = {} }
 	local toolBag      = { sortBy = 'name',  contents = {} }
@@ -118,9 +119,22 @@ local function sortInventory(player, maxLights)
 		return
 	end
 
+
+	local backpackSlotCount = backpack and backpack:GetNumSlots() or 0
+	local invSlotCount      = inventory:GetNumSlots()
+	local totalSlots        = backpackSlotCount + invSlotCount
+
+
 	-- Categorise the player's inventory.
-	for i = 1, inventory:GetNumSlots() do
-		local item = inventory:GetItemInSlot(i)
+	for i = 1, totalSlots do
+		local item = nil
+
+		-- Loop through the main inventory and the backpack.
+		if i <= invSlotCount then
+			item = inventory:GetItemInSlot(i)
+		else
+			item = backpack:GetItemInSlot(i - totalSlots)
+		end
 
 		if item then
 			local bag  = miscBag
