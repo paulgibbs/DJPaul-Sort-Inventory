@@ -171,6 +171,7 @@ local function sortInventory(player, maxLights)
 				bag = resourceBag
 			end
 
+
 			table.insert(bag.contents, {
 				obj   = item,
 				value = sort
