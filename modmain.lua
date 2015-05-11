@@ -134,6 +134,10 @@ local function sortInventory(player, maxLights)
 		if i <= invSlotCount then
 			item = inventory:GetItemInSlot(i)
 		else
+			if not backpack then
+				return
+			end
+
 			item = backpack:GetItemInSlot(i - totalSlots)
 		end
 
