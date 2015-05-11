@@ -71,7 +71,7 @@ end
 --
 -- @param inst InventoryItem object
 -- @return bool
-local function itemIsPriorityResource(inst)
+local function itemIsResource(inst)
 	-- Highest frequency to lowest fequency
 	local items = {
 		"Twigs",
