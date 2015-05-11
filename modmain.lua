@@ -112,6 +112,7 @@ local function sortInventory(player, maxLights)
 	local lightBag     = { sortBy = 'value', contents = {} }
 	local toolBag      = { sortBy = 'name',  contents = {} }
 	local weaponBag    = { sortBy = 'value', contents = {} }
+	local resourceBag  = { sortBy = 'name',  contents = {} }
 	local miscBag      = { sortBy = 'name',  contents = {} }
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 
@@ -164,6 +165,10 @@ local function sortInventory(player, maxLights)
 			elseif itemIsWeapon(item) then
 				bag  = weaponBag
 				sort = item.components.weapon.damage
+
+			-- Priority resources
+			elseif itemIsResource(item) then
+				bag = resourceBag
 			end
 
 			table.insert(bag.contents, {
