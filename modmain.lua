@@ -212,7 +212,7 @@ local function sortInventory(player, maxLights)
 		end
 
 		-- keys contains the sorted order for the current bag (sortingHat[i]).
-		keys = sortItems(keys, sortingHat, i);
+		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
 			itemOffset = itemOffset + 1;
