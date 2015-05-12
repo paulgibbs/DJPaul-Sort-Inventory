@@ -186,6 +186,8 @@ local function sortInventory(player, maxLights)
 		inventory:RemoveItem(item, true)
 	end
 
+	local itemOffset = 0
+
 
 	--[[
 	"Oh you may not think I'm pretty,
@@ -198,10 +200,9 @@ local function sortInventory(player, maxLights)
 		toolBag,
 		weaponBag,
 		foodBag,
+		resourceBag,  -- must be second-to-last.
 		miscBag,
 	}
-
-	local itemOffset = 0
 
 
 	-- Sort the categorised items.
@@ -218,7 +219,12 @@ local function sortInventory(player, maxLights)
 			itemOffset = itemOffset + 1;
 
 			-- Re-attach the item to the player's inventory, to its sorted position.
-			inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
+			if inventory:NumItems() < invSlotCount then
+				inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
+
+			-- Inventory full, put item in backpack.
+				backpack:GiveItem(sortingHat[i].contents[key].obj, itemOffset - totalSlots, nil)
+			end
 		end
 	end
 
