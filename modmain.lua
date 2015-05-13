@@ -223,6 +223,7 @@ local function sortInventory(player, maxLights)
 				inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
 
 			-- Inventory full, put item in backpack.
+			elseif backpack then
 				backpack:GiveItem(sortingHat[i].contents[key].obj, itemOffset - totalSlots, nil)
 			end
 		end
