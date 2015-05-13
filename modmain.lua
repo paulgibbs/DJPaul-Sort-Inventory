@@ -228,8 +228,6 @@ local function sortInventory(player, maxLights)
 			end
 		end
 	end
-
-	player.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end
 
 --- Inventory must be sorted server-side, so listen for a RPC.
@@ -250,4 +248,6 @@ GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 	else
 		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
 	end
+
+	GLOBAL.ThePlayer.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
 end)
