@@ -248,6 +248,6 @@ GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
 
 	-- Client-side
 	else
-		GLOBAL.SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
+		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
 	end
 end)
