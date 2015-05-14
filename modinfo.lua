@@ -4,7 +4,7 @@ author      = "Paul Gibbs (DJPaul)"
 version     = "1.0-beta-3"
 forumthread = ""
 
-api_version                = 10  --DST api version
+api_version                = 10  -- DST api version
 dont_starve_compatible     = false
 reign_of_giants_compatible = false
 dst_compatible             = true
