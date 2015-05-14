@@ -108,12 +108,12 @@ end
 local function sortInventory(player, maxLights)
 	local inventory    = player and player.components.inventory or nil
 	local backpack     = inventory and inventory:GetOverflowContainer() or nil
-	local foodBag      = { contents = {}, sortBy = 'value' }
-	local lightBag     = { contents = {}, sortBy = 'value' }
-	local toolBag      = { contents = {}, sortBy = 'name' }
-	local weaponBag    = { contents = {}, sortBy = 'value' }
-	local resourceBag  = { contents = {}, sortBy = 'name' }
-	local miscBag      = { contents = {}, sortBy = 'name' }
+	local foodBag      = { contents = {}, sortBy = 'value', type = 'food' }
+	local lightBag     = { contents = {}, sortBy = 'value', type = 'light' }
+	local toolBag      = { contents = {}, sortBy = 'name', type = 'tools' }
+	local weaponBag    = { contents = {}, sortBy = 'value', type = 'weapons' }
+	local resourceBag  = { contents = {}, sortBy = 'name', type = 'resources' }
+	local miscBag      = { contents = {}, sortBy = 'name', type = 'misc' }
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 
 	if player:HasTag("playerghost") or not inventory then
