@@ -28,4 +28,17 @@ configuration_options = {
 			return values
 		end)()
 	},
+	{
+		default = "resources",
+		label   = "Backpack stores...",
+		name    = "backpack",
+		options = {
+			{ description = "Food", data = "food" },
+			{ description = "Lights", data = "light" },
+			{ description = "Tools", data = "tools" },
+			{ description = "Weapons", data = "weapons" },
+			{ description = "Resources", data = "resources" },
+			{ description = "Junk", data = "misc" }
+		}
+	},
 }
