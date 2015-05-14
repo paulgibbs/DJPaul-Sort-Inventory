@@ -1,5 +1,5 @@
 name        = "DJPaul's Sort Inventory"
-description = "Automatically sorts your inventory into a sensible order."
+description = 'Automatically sorts your inventory into a sensible order.\nPress "G" to sort.'
 author      = "Paul Gibbs (DJPaul)"
 version     = "1.0-beta-3"
 forumthread = ""
