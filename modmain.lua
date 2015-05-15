@@ -187,7 +187,8 @@ local function sortInventory(player, maxLights, backpackCategory)
 		inventory:RemoveItem(item, true)
 	end
 
-	local invOffset = 0
+	local backpackOffset  = 0
+	local inventoryOffset = 0
 
 
 	--[[
@@ -217,17 +218,25 @@ local function sortInventory(player, maxLights, backpackCategory)
 		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
-			invOffset = invOffset + 1;
+			inventoryOffset = inventoryOffset + 1;
 
-			-- Re-attach the item to the player's inventory, to its sorted position.
-			if inventory:NumItems() < invSlotCount then
-				inventory:GiveItem(sortingHat[i].contents[key].obj, itemOffset, nil)
+			if sortingHat[i].type == backpackCategory then
+				backpackOffset = backpackOffset + 1;
+				backpack:GiveItem(sortingHat[i].contents[key].obj, backpackOffset, nil)
 
-			-- Inventory full, put item in backpack.
-			elseif backpack then
-				backpack:GiveItem(sortingHat[i].contents[key].obj, itemOffset - invSlotCount, nil)
+			else
+				-- Re-attach the item to the player's inventory, to its sorted position.
+				if inventory:NumItems() < invSlotCount then
+					inventory:GiveItem(sortingHat[i].contents[key].obj, inventoryOffset, nil)
+
+				-- Inventory full, put item in backpack.
+				elseif backpack then
+					backpackOffset = backpackOffset + 1;
+					backpack:GiveItem(sortingHat[i].contents[key].obj, backpackOffset, nil)
+				end
 			end
 		end
+
 	end
 end
 
