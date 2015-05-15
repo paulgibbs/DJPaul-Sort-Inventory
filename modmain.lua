@@ -202,7 +202,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 		toolBag,
 		weaponBag,
 		foodBag,
-		resourceBag,  -- must be second-to-last.
+		resourceBag,
 		miscBag,
 	}
 
@@ -224,7 +224,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 				backpack:GiveItem(sortingHat[i].contents[key].obj, backpackOffset, nil)
 
 			else
-				-- Otherwise, put the item in the player's inventory, if there's space.
+				-- Otherwise, put the item in the player's inventory, if there's room.
 				if inventory:NumItems() < invSlotCount then
 					inventoryOffset = inventoryOffset + 1;
 					inventory:GiveItem(sortingHat[i].contents[key].obj, inventoryOffset, nil)
