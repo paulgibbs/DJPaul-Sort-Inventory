@@ -248,7 +248,7 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	local backpackCategory = GLOBAL.tonumber(GetModConfigData("backpackCategory"))
+	local backpackCategory = GetModConfigData("backpackCategory")
 	local maxLights        = GLOBAL.tonumber(GetModConfigData("maxLights"))
 
 	-- Server-side
