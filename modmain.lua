@@ -187,7 +187,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 		inventory:RemoveItem(item, true)
 	end
 
-	local itemOffset = 0
+	local invOffset = 0
 
 
 	--[[
@@ -217,7 +217,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
-			itemOffset = itemOffset + 1;
+			invOffset = invOffset + 1;
 
 			-- Re-attach the item to the player's inventory, to its sorted position.
 			if inventory:NumItems() < invSlotCount then
