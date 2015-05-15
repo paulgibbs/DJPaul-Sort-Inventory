@@ -31,7 +31,7 @@ configuration_options = {
 	{
 		default = "resources",
 		label   = "Backpack stores...",
-		name    = "backpack",
+		name    = "backpackCategory",
 		options = {
 			{ description = "Food", data = "food" },
 			{ description = "Lights", data = "light" },

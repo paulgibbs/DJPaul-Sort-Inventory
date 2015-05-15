@@ -105,7 +105,8 @@ end
 --
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
-local function sortInventory(player, maxLights)
+-- @param backpackCategory Category of item to sort into backpack.
+local function sortInventory(player, maxLights, backpackCategory)
 	local inventory    = player and player.components.inventory or nil
 	local backpack     = inventory and inventory:GetOverflowContainer() or nil
 	local foodBag      = { contents = {}, sortBy = 'value', type = 'food' }
@@ -231,22 +232,23 @@ local function sortInventory(player, maxLights)
 end
 
 --- Inventory must be sorted server-side, so listen for a RPC.
-AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights)
-	sortInventory(player, maxLights)
+AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, maxLights, backpackCategory)
+	sortInventory(player, maxLights, backpackCategory)
 end)
 
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GLOBAL.KEY_G, function()
-	local maxLights = GLOBAL.tonumber(GetModConfigData("maxLights"))
+	local backpackCategory = GLOBAL.tonumber(GetModConfigData("backpackCategory"))
+	local maxLights        = GLOBAL.tonumber(GetModConfigData("maxLights"))
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
-		sortInventory(GLOBAL.ThePlayer, maxLights)
+		sortInventory(GLOBAL.ThePlayer, maxLights, backpackCategory)
 
 	-- Client-side
 	else
-		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights)
+		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], maxLights, backpackCategory)
 	end
 
 	GLOBAL.ThePlayer.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
