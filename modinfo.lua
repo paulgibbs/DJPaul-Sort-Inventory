@@ -20,6 +20,21 @@ configuration_options = {
 		label   = "Press to sort:",
 		name    = "keybind",
 		options = (function()
+			local KEY_A  = 97  -- ASCII code for "a"
+			local values = {}
+			local chars  = {
+				"A","B","C","D","E","F","G","H","I","J","K","L","M",
+				"N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+			}
+
+			for i = 1, #chars do
+				values[#values + 1] = { description = chars[i], data = i + KEY_A - 1 }
+			end
+
+			return values
+		end)()
+	},
+	{
 		default = 2,
 		label   = "Preferred torch count:",
 		name    = "maxLights",
