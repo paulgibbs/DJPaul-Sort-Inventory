@@ -229,7 +229,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 					inventoryOffset = inventoryOffset + 1;
 					inventory:GiveItem(sortingHat[i].contents[key].obj, inventoryOffset, nil)
 
-				-- The inventory is full, put item in backpack.
+				-- The inventory is full, put item in backpack. Overflow!
 				elseif backpack then
 					backpackOffset = backpackOffset + 1;
 					backpack:GiveItem(sortingHat[i].contents[key].obj, backpackOffset, nil)
