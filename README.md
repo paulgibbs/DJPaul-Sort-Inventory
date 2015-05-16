@@ -42,4 +42,5 @@ The item groups themselves are then sorted into an optimum order determined by p
 Copyright © 2015, Paul Gibbs.
 
 Licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+
 Find this mod on Github at https://github.com/paulgibbs/DJPaul-Sort-Inventory
