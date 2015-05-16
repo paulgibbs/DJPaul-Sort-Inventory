@@ -1,5 +1,5 @@
 name        = "DJPaul's Sort Inventory"
-description = 'Automatically sorts your inventory into a sensible order.\nPress "G" to sort.'
+description = "Automatically sorts your inventory into a sensible order."
 author      = "Paul Gibbs (DJPaul)"
 version     = "1.0-beta-3"
 forumthread = ""
@@ -16,8 +16,12 @@ all_clients_require_mod = false
 
 configuration_options = {
 	{
+		default = 103,  -- ASCII code for "g"
+		label   = "Press to sort:",
+		name    = "keybind",
+		options = (function()
 		default = 2,
-		label   = "Number of torches",
+		label   = "Preferred torch count:",
 		name    = "maxLights",
 		options = (function()
 			local values = {}
@@ -30,7 +34,7 @@ configuration_options = {
 	},
 	{
 		default = "resources",
-		label   = "Store these in backpack",
+		label   = "Store these in backpack:",
 		name    = "backpackCategory",
 		options = {
 			{ description = "Armour",    data = "armour" },
