@@ -17,7 +17,7 @@ all_clients_require_mod = false
 configuration_options = {
 	{
 		default = 2,
-		label   = "Number of torches:",
+		label   = "Number of torches",
 		name    = "maxLights",
 		options = (function()
 			local values = {}
@@ -30,7 +30,7 @@ configuration_options = {
 	},
 	{
 		default = "resources",
-		label   = "Store these in backpack:",
+		label   = "Store these in backpack",
 		name    = "backpackCategory",
 		options = {
 			{ description = "Food", data = "food" },
