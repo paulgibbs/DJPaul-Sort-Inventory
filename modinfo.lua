@@ -33,6 +33,7 @@ configuration_options = {
 		label   = "Store these in backpack",
 		name    = "backpackCategory",
 		options = {
+			{ description = "Armour", data = "armour" },
 			{ description = "Food", data = "food" },
 			{ description = "Lights", data = "light" },
 			{ description = "Tools", data = "tools" },

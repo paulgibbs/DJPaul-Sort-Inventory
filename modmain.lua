@@ -101,6 +101,14 @@ local function itemIsResource(inst)
 	return false
 end
 
+--- Does the item provide armour?
+--
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsArmour(inst)
+	return inst.components.armor ~= nil
+end
+
 --- Sorts the player's inventory into a sensible order.
 --
 -- @param player Sort this player's inventory.
@@ -109,6 +117,7 @@ end
 local function sortInventory(player, maxLights, backpackCategory)
 	local inventory    = player and player.components.inventory or nil
 	local backpack     = inventory and inventory:GetOverflowContainer() or nil
+	local armourBag    = { contents = {}, sortBy = 'value', type = 'armour' }
 	local foodBag      = { contents = {}, sortBy = 'value', type = 'food' }
 	local lightBag     = { contents = {}, sortBy = 'value', type = 'light' }
 	local toolBag      = { contents = {}, sortBy = 'name', type = 'tools' }
@@ -161,6 +170,11 @@ local function sortInventory(player, maxLights, backpackCategory)
 					bag = miscBag
 				end
 
+			-- Armour (chest and head)
+			elseif itemIsArmour(item) then
+				bag  = armourBag
+				sort = item.components.armor:GetPercent()
+
 			-- Tools
 			elseif itemIsTool(item) then
 				bag  = toolBag
@@ -202,6 +216,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 		toolBag,
 		weaponBag,
 		foodBag,
+		armourBag,
 		resourceBag,
 		miscBag,
 	}
