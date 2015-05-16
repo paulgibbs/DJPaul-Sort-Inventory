@@ -31,6 +31,14 @@ local function sortItems(items, bag, offset)
 	return items
 end
 
+--- Does the item provide armour?
+--
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsArmour(inst)
+	return inst.components.armor ~= nil
+end
+
 --- Is the item a food for the current player?
 --
 -- @param inst InventoryItem object
@@ -46,22 +54,6 @@ end
 -- @return bool
 local function itemIsLight(inst)
 	return inst.components.lighter and inst.components.fueled
-end
-
---- Is the item a tool?
---
--- @param inst InventoryItem object
--- @return bool
-local function itemIsTool(inst)
-	return inst.components.tool and inst.components.equippable and inst.components.finiteuses
-end
-
---- Is the item a weapon?
---
--- @param inst InventoryItem object
--- @return bool
-local function itemIsWeapon(inst)
-	return inst.components.weapon ~= nil
 end
 
 --- Is the item a priority resource?
@@ -101,12 +93,20 @@ local function itemIsResource(inst)
 	return false
 end
 
---- Does the item provide armour?
+--- Is the item a tool?
 --
 -- @param inst InventoryItem object
 -- @return bool
-local function itemIsArmour(inst)
-	return inst.components.armor ~= nil
+local function itemIsTool(inst)
+	return inst.components.tool and inst.components.equippable and inst.components.finiteuses
+end
+
+--- Is the item a weapon?
+--
+-- @param inst InventoryItem object
+-- @return bool
+local function itemIsWeapon(inst)
+	return inst.components.weapon ~= nil
 end
 
 --- Sorts the player's inventory into a sensible order.
@@ -116,20 +116,19 @@ end
 -- @param backpackCategory Category of item to sort into backpack.
 local function sortInventory(player, maxLights, backpackCategory)
 	local inventory    = player and player.components.inventory or nil
+	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 	local backpack     = inventory and inventory:GetOverflowContainer() or nil
 	local armourBag    = { contents = {}, sortBy = 'value', type = 'armour' }
 	local foodBag      = { contents = {}, sortBy = 'value', type = 'food' }
 	local lightBag     = { contents = {}, sortBy = 'value', type = 'light' }
-	local toolBag      = { contents = {}, sortBy = 'name', type = 'tools' }
+	local miscBag      = { contents = {}, sortBy = 'name',  type = 'misc' }
+	local resourceBag  = { contents = {}, sortBy = 'name',  type = 'resources' }
+	local toolBag      = { contents = {}, sortBy = 'name',  type = 'tools' }
 	local weaponBag    = { contents = {}, sortBy = 'value', type = 'weapons' }
-	local resourceBag  = { contents = {}, sortBy = 'name', type = 'resources' }
-	local miscBag      = { contents = {}, sortBy = 'name', type = 'misc' }
-	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
 
 	if player:HasTag("playerghost") or not inventory then
 		return
 	end
-
 
 	local backpackSlotCount = backpack and backpack:GetNumSlots() or 0
 	local invSlotCount      = inventory:GetNumSlots()
@@ -143,6 +142,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 		-- Loop through the main inventory and the backpack.
 		if i <= invSlotCount then
 			item = inventory:GetItemInSlot(i)
+
 		else
 			if not backpack then
 				return
@@ -151,12 +151,18 @@ local function sortInventory(player, maxLights, backpackCategory)
 			item = backpack:GetItemInSlot(i - invSlotCount)
 		end
 
+		-- Figure out what kind of item we're dealing with.
 		if item then
 			local bag  = miscBag
 			local sort = 0
 
+			-- Armour (chest and head)
+			if itemIsArmour(item) then
+				bag  = armourBag
+				sort = item.components.armor:GetPercent()
+
 			-- Food
-			if itemIsFood(item) then
+			elseif itemIsFood(item) then
 				bag  = foodBag
 				sort = isPlayerHurt and item.components.edible.healthvalue or item.components.edible.hungervalue
 
@@ -170,10 +176,9 @@ local function sortInventory(player, maxLights, backpackCategory)
 					bag = miscBag
 				end
 
-			-- Armour (chest and head)
-			elseif itemIsArmour(item) then
-				bag  = armourBag
-				sort = item.components.armor:GetPercent()
+			-- Priority resources
+			elseif itemIsResource(item) then
+				bag = resourceBag
 
 			-- Tools
 			elseif itemIsTool(item) then
@@ -184,10 +189,6 @@ local function sortInventory(player, maxLights, backpackCategory)
 			elseif itemIsWeapon(item) then
 				bag  = weaponBag
 				sort = item.components.weapon.damage
-
-			-- Priority resources
-			elseif itemIsResource(item) then
-				bag = resourceBag
 			end
 
 
