@@ -10,6 +10,13 @@ Automatically sorts your inventory into a sensible order.
 Press the `G` key to sort your inventory.
 
 ## Release History
+#### v1.0-rc-1 16/May/2015
+- New: Backpack support.
+- New: Setting to control what kind of items are sorted into your backpack.
+- New: Setting to change the keybind for the sort key (defaults to "g").
+- New: More item categories (resources, armour).
+- Fix: Misc. code improvements.
+
 #### v1.0-beta-3 07/May/2015
 - New: Mod option to set the maximum number of torches sorted.
 - New: Don't sort anything if the player is a ghost.
