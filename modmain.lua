@@ -61,7 +61,7 @@ end
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsWeapon(inst)
-	return inst.components.weapon and true
+	return inst.components.weapon ~= nil
 end
 
 --- Is the item a priority resource?
