@@ -15,6 +15,10 @@ When you sort your inventory, the mod looks at every item you have, and decides 
 The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position.
 
 ## Release History
+#### v1.0 17/May/2015
+- First release!
+- New: Rocks are sorted into the resources category.
+
 #### v1.0-rc-1 16/May/2015
 - New: Backpack support.
 - New: Setting to control what kind of items are sorted into your backpack.

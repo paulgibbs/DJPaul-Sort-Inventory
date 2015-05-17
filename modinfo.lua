@@ -1,7 +1,7 @@
 name        = "DJPaul's Sort Inventory"
 description = "Automatically sorts your inventory into a sensible order."
 author      = "Paul Gibbs (DJPaul)"
-version     = "1.0-rc-1"
+version     = "1.0"
 forumthread = ""
 
 api_version                = 10  -- DST api version
