@@ -15,6 +15,10 @@ When you sort your inventory, the mod looks at every item you have, and decides 
 The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position.
 
 ## Release History
+#### v1.1 18/May/2015
+- Fix: Crash when trying to sort inventory in main menu.
+- New: Added mod logo.
+
 #### v1.0 17/May/2015
 - First release!
 - New: Rocks are sorted into the resources category.
