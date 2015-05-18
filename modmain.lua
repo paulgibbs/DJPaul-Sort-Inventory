@@ -265,6 +265,10 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
+	if not GLOBAL.ThePlayer then
+		return
+	end
+
 	local backpackCategory = GetModConfigData("backpackCategory")
 	local maxLights        = GLOBAL.tonumber(GetModConfigData("maxLights"))
 	local modVersion       = GLOBAL.KnownModIndex:GetModInfo(modname).version
