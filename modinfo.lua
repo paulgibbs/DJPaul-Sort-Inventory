@@ -10,6 +10,8 @@ reign_of_giants_compatible = false
 dst_compatible             = true
 priority                   = 0  -- Relative load order
 server_filter_tags         = { "djpaul", "sort inventory" }
+icon_atlas                 = "modicon.xml"
+icon                       = "modicon.tex"
 
 client_only_mod         = false
 all_clients_require_mod = false
