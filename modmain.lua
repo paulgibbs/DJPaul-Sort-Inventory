@@ -140,10 +140,11 @@ local function sortInventory(player, maxLights, backpackCategory)
 	for i = 1, totalSlots do
 		local item = nil
 
-		-- Loop through the main inventory and the backpack.
+		-- Loop through the main inventory.
 		if i <= invSlotCount then
 			item = inventory:GetItemInSlot(i)
 
+		-- Loop through the backpack.
 		else
 			if not backpack then
 				return
