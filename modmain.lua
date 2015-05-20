@@ -6,8 +6,8 @@
 --- Sort through the bag and return the items' new offsets.
 --
 -- @param items
--- @param bag Bag ID
--- @param offset
+-- @param bag
+-- @param offset Item position within bag.
 -- @return Sorted item offsets
 local function sortItems(items, bag, offset)
 	table.sort(items, function(a, b)
