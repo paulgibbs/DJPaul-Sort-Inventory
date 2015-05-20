@@ -3,7 +3,63 @@
 -- GLOBAL.require("debugtools")
 
 
---- Sort through the bag and return the items' new offsets.
+--- Helper function to find a particular inventory item inside a table.
+-- Ought to be made generic so it can be used for any kind of thing within a table.
+--
+-- @param bool
+-- @return Offset within theTable where the item already exists, or nil if it doesn't.
+local function findItemInTable(theTable, item)
+	for i = 1, #theTable do
+		if theTable[i].prefab == item.prefab then
+			return i
+		end
+	end
+
+	return nil
+end
+
+--- Loop through back and try to combine same items into stacks.
+--
+-- @param bag
+-- @return Updated bag contents.
+local function combineItemStacks(bag)
+	local partialStacks = {}
+
+	for i = 1, #bag do
+		if bag[i] ~= nil then
+
+			-- Is this item stackable and does it have space?
+			if bag[i].obj.components.stackable and bag[i].obj.components.stackable:RoomLeft() > 0 then
+
+				-- Have we already found one of these kinds of items?
+				local existing = findItemInTable(partialStacks, bag[i].obj)
+				if partialStacks[existing] then
+
+					-- Combine stacks.
+					local leftoverItems = partialStacks[existing].components.stackable:Put(bag[i].obj)
+
+					if leftoverItems then
+						table.insert(partialStacks, leftoverItems)
+					else
+						-- The current item has been combined into another item.
+						table.remove(bag, i)
+					end
+
+				-- No existing partial stacks were found.
+				else
+					table.insert(partialStacks, bag[i].obj)
+				end
+			end
+
+		end
+	end
+
+	-- todo: add partials stacks in here.
+
+	return bag
+end
+
+--- Sort through the bag and return the items' new offsets
 --
 -- @param items
 -- @param bag
@@ -232,7 +288,10 @@ local function sortInventory(player, maxLights, backpackCategory)
 			table.insert(keys, key)
 		end
 
-		-- keys contains the sorted order for the current bag (sortingHat[i]).
+		-- Try to combine same items into stacks.
+		sortingHat[i].contents = combineItemStacks(sortingHat[i].contents)
+
+		-- keys represents the sorted order for the current bag (sortingHat[i]).
 		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
