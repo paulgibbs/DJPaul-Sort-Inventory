@@ -8,9 +8,9 @@
 --
 -- @param bool
 -- @return Offset within theTable where the item already exists, or nil if it doesn't.
-local function findItemInTable(theTable, item)
-	for i = 1, #theTable do
-		if theTable[i].prefab == item.prefab then
+local function findItemInTable(offsets, bag, bagOffset)
+	for i = 1, #offsets do
+		if i ~= bagOffset and bag[i].obj.prefab == bag[bagOffset].obj.prefab then
 			return i
 		end
 	end
@@ -32,22 +32,23 @@ local function combineItemStacks(bag)
 			if bag[i].obj.components.stackable and bag[i].obj.components.stackable:RoomLeft() > 0 then
 
 				-- Have we already found one of these kinds of items?
-				local existing = findItemInTable(partialStacks, bag[i].obj)
-				if partialStacks[existing] then
+				local existing = findItemInTable(partialStacks, bag, i)
+				if existing and bag[existing] then
 
 					-- Combine stacks.
-					local leftoverItems = partialStacks[existing].components.stackable:Put(bag[i].obj)
+					local leftoverItems = bag[existing].obj.components.stackable:Put(bag[i].obj)
+					table.remove(partialStacks, existing)
 
 					if leftoverItems then
-						table.insert(partialStacks, leftoverItems)
+						bag[i].obj = leftoverItems
 					else
 						-- The current item has been combined into another item.
-						table.remove(bag, i)
+						table.remove(bag, i) --djpaultodo
 					end
 
 				-- No existing partial stacks were found.
 				else
-					table.insert(partialStacks, bag[i].obj)
+					table.insert(partialStacks, i)
 				end
 			end
 
@@ -290,6 +291,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 
 		-- Try to combine same items into stacks.
 		sortingHat[i].contents = combineItemStacks(sortingHat[i].contents)
+--		GLOBAL.dumptable(sortingHat[i].contents,1,1)
 
 		-- keys represents the sorted order for the current bag (sortingHat[i]).
 		keys = sortItems(keys, sortingHat, i)
