@@ -17,6 +17,7 @@ The item groups themselves are then sorted into an optimum order determined by p
 ## Release History
 #### v1.2 22/May/2015
 - Fix: Prevent backpacks being overfilled (the items were being dropped to the floor).
+- New: Connecting to a server running this mod will now download the mod if you do not already have it.
 
 #### v1.1 18/May/2015
 - Fix: Crash when trying to sort inventory in main menu.
