@@ -110,6 +110,67 @@ local function itemIsWeapon(inst)
 	return inst.components.weapon ~= nil
 end
 
+--- Find the best slot in the backpack for an item. Suppports stacking.
+-- Ported version of core's Inventory:GetNextAvailableSlot.
+-- The backpack is a Container, not an Inventory object. See http://goo.gl/hX9R98
+--
+-- @param item InventoryItem object.
+-- @param player
+-- @return Offset, container.
+local function getNextAvailableBackpackSlot(item, player)
+	local inventory  = player.components.inventory
+	local backpack   = inventory:GetOverflowContainer()
+	local prefabName = nil
+
+	-- Function assumes a backpack exists. Don't use it otherwise.
+	if backpack == nil then
+		return nil, nil
+	end
+
+	if item.components.stackable ~= nil then
+		prefabName = item.prefab
+
+		-- Check for stacks that aren't full.
+		for k, v in pairs(inventory.equipslots) do
+			if v.prefab == prefabName and v.components.equippable.equipstack and
+				v.components.stackable and not v.components.stackable:IsFull() then
+				return k, inventory.equipslots
+			end
+		end
+
+		for k, v in pairs(inventory.itemslots) do
+			if v.prefab == prefabName and v.components.stackable and not v.components.stackable:IsFull() then
+				return k, inventory.itemslots
+			end
+		end
+
+		for k, v in pairs(backpack.slots) do
+			if v.prefab == prefabName and v.components.stackable and not v.components.stackable:IsFull() then
+				return k, backpack
+			end
+		end
+	end
+
+	local empty = nil
+
+	-- Check for empty space in the container.
+	for k = 1, backpack.slots do
+		if backpack:CanTakeItemInSlot(item, k) and not backpack.slots[k] then
+
+			if prefabName ~= nil then
+				if empty == nil then
+					empty = k
+				end
+			else
+				return k, backpack.slots
+			end
+
+		end
+	end
+
+	return empty, backpack.slots
+end
+
 --- Sorts the player's inventory into a sensible order.
 --
 -- @param player Sort this player's inventory.
