@@ -155,7 +155,7 @@ local function getNextAvailableBackpackSlot(item, player)
 
 	-- Check for empty space in the container.
 	for k = 1, backpack.numslots do
-		if backpack:CanTakeItemInSlot(item, k) and not backpack:GetItemInSlot[k] then
+		if backpack:CanTakeItemInSlot(item, k) and not backpack:GetItemInSlot(k) then
 
 			if prefabName ~= nil then
 				if empty == nil then
