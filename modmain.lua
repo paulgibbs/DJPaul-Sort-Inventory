@@ -154,21 +154,21 @@ local function getNextAvailableBackpackSlot(item, player)
 	local empty = nil
 
 	-- Check for empty space in the container.
-	for k = 1, backpack.slots do
-		if backpack:CanTakeItemInSlot(item, k) and not backpack.slots[k] then
+	for k = 1, backpack.numslots do
+		if backpack:CanTakeItemInSlot(item, k) and not backpack:GetItemInSlot[k] then
 
 			if prefabName ~= nil then
 				if empty == nil then
 					empty = k
 				end
 			else
-				return k, backpack.slots
+				return k, backpack
 			end
 
 		end
 	end
 
-	return empty, backpack.slots
+	return empty, backpack
 end
 
 --- Sorts the player's inventory into a sensible order.
