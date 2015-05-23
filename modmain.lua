@@ -297,6 +297,8 @@ local function sortInventory(player, maxLights, backpackCategory)
 		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
+			local itemObj = sortingHat[i].contents[key].obj
+
 			-- Has the player chosen to store this type of item in their backpack?
 			if backpack and sortingHat[i].type == backpackCategory and backpack:NumItems() < backpackSlotCount then
 				backpackOffset = backpackOffset + 1;
@@ -306,7 +308,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 			else
 				if inventory:NumItems() < invSlotCount then
 					inventoryOffset = inventoryOffset + 1;
-					inventory:GiveItem(sortingHat[i].contents[key].obj, inventory:GetNextAvailableSlot(sortingHat[i].contents[key].obj), nil)
+					inventory:GiveItem(itemObj, inventory:GetNextAvailableSlot(itemObj), nil)
 
 				-- The inventory is full, put item in backpack. Overflow!
 				elseif backpack then
