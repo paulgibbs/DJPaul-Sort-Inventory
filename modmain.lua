@@ -245,7 +245,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 			else
 				if inventory:NumItems() < invSlotCount then
 					inventoryOffset = inventoryOffset + 1;
-					inventory:GiveItem(sortingHat[i].contents[key].obj, inventoryOffset, nil)
+					inventory:GiveItem(sortingHat[i].contents[key].obj, inventory:GetNextAvailableSlot(sortingHat[i].contents[key].obj), nil)
 
 				-- The inventory is full, put item in backpack. Overflow!
 				elseif backpack then
