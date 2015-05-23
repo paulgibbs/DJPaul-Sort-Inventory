@@ -2,7 +2,7 @@ name        = "DJPaul's Sort Inventory"
 description = "Automatically sorts your inventory into a sensible order."
 author      = "Paul Gibbs (DJPaul)"
 version     = "1.2"
-forumthread = ""
+forumthread = "/topic/54138-new-mod-djpauls-sort-inventory/"
 
 api_version                = 10  -- DST api version
 dont_starve_compatible     = false
