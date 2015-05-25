@@ -171,6 +171,43 @@ local function getNextAvailableBackpackSlot(item, player)
 	return empty, backpack
 end
 
+--- Find the best slot in a player's overall inventory for the specified item to be put in. Supports stacking.
+--
+-- @param player
+-- @param item InventoryItem object.
+-- @param bagPreference If new slot required, which container to use. Either "backpack" or "inventory".
+-- @return Offset, inventory/container object.
+local function getNextAvailableInventorySlot(player, item, bagPreference)
+	local inventory         = player.components.inventory
+	local backpack          = inventory:GetOverflowContainer()
+	local backpackSlotCount = backpack and backpack:GetNumSlots() or 0
+
+	local container = nil
+	local slot      = nil
+
+
+	-- Has the player chosen to store this type of item in their backpack?
+	if bagPreference == "backpack" and backpack and backpack:NumItems() < backpackSlotCount then
+		slot, container = getNextAvailableBackpackSlot(itemObj, player)
+
+	-- Has the player chosen to store this type of item in their inventory?
+	-- Or, did they want to store it in their backpack, but it has no space?
+	else
+		slot, container = inventory:GetNextAvailableSlot(itemObj)
+	end
+
+	-- Cconvert the response of GetNextAvailableSlot() into the appropriate object.
+	if slot then
+		if container == inventory.equipslots or container == inventory.itemslots then
+			container = inventory
+		end
+
+		-- backpack is handled by default.
+	end
+
+	return slot, container
+end
+
 --- Sorts the player's inventory into a sensible order.
 --
 -- @param player Sort this player's inventory.
@@ -265,9 +302,6 @@ local function sortInventory(player, maxLights, backpackCategory)
 		inventory:RemoveItem(item, true)
 	end
 
-	local backpackOffset  = 0
-	local inventoryOffset = 0
-
 
 	--[[
 	"Oh you may not think I'm pretty,
@@ -297,25 +331,17 @@ local function sortInventory(player, maxLights, backpackCategory)
 		keys = sortItems(keys, sortingHat, i)
 
 		for _, key in ipairs(keys) do
-			local itemObj = sortingHat[i].contents[key].obj
+			local bagPreference = "inventory"
+			local itemObj       = sortingHat[i].contents[key].obj
 
 			-- Has the player chosen to store this type of item in their backpack?
-			if backpack and sortingHat[i].type == backpackCategory and backpack:NumItems() < backpackSlotCount then
-				backpackOffset = backpackOffset + 1;
-				backpack:GiveItem(itemObj, getNextAvailableBackpackSlot(itemObj, player), nil)
-
-			-- Otherwise, put the item in the player's inventory, if there's room.
-			else
-				if inventory:NumItems() < invSlotCount then
-					inventoryOffset = inventoryOffset + 1;
-					inventory:GiveItem(itemObj, inventory:GetNextAvailableSlot(itemObj), nil)
-
-				-- The inventory is full, put item in backpack. Overflow!
-				elseif backpack then
-					backpackOffset = backpackOffset + 1;
-					backpack:GiveItem(itemObj, getNextAvailableBackpackSlot(itemObj, player), nil)
-				end
+			if backpack and sortingHat[i].type == backpackCategory then
+				bagPreference = "backpack"
 			end
+
+			-- Put the item in its sorted slot/container.
+			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
+			container:GiveItem(itemObj, slot, nil)
 		end
 
 	end
