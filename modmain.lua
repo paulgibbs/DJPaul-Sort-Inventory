@@ -188,12 +188,12 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 
 	-- Has the player chosen to store this type of item in their backpack?
 	if bagPreference == "backpack" and backpack and backpack:NumItems() < backpackSlotCount then
-		slot, container = getNextAvailableBackpackSlot(itemObj, player)
+		slot, container = getNextAvailableBackpackSlot(item, player)
 
 	-- Has the player chosen to store this type of item in their inventory?
 	-- Or, did they want to store it in their backpack, but it has no space?
 	else
-		slot, container = inventory:GetNextAvailableSlot(itemObj)
+		slot, container = inventory:GetNextAvailableSlot(item)
 	end
 
 	-- Cconvert the response of GetNextAvailableSlot() into the appropriate object.
