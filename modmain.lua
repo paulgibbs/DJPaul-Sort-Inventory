@@ -1,6 +1,6 @@
--- GLOBAL.CHEATS_ENABLED = true
--- GLOBAL.require("debugkeys")
--- GLOBAL.require("debugtools")
+GLOBAL.CHEATS_ENABLED = true
+GLOBAL.require("debugkeys")
+GLOBAL.require("debugtools")
 
 
 --- Sort through the bag and return the items' new offsets.
@@ -194,6 +194,9 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 	-- Or, did they want to store it in their backpack, but it has no space?
 	else
 		slot, container = inventory:GetNextAvailableSlot(item)
+		if slot == nil then
+			print('maybe overflow?', item.name)
+		end
 	end
 
 	-- Cconvert the response of GetNextAvailableSlot() into the appropriate object.
@@ -341,7 +344,12 @@ local function sortInventory(player, maxLights, backpackCategory)
 
 			-- Put the item in its sorted slot/container.
 			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
-			container:GiveItem(itemObj, slot, nil)
+			if slot then
+				container:GiveItem(itemObj, slot, nil)
+			else
+				print('DJPAUL item gone weird', itemObj.name)
+				inventory:DropItem(item, true, true)
+			end
 		end
 
 	end
