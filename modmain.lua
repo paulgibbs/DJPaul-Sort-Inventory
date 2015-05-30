@@ -1,6 +1,6 @@
-GLOBAL.CHEATS_ENABLED = true
-GLOBAL.require("debugkeys")
-GLOBAL.require("debugtools")
+-- GLOBAL.CHEATS_ENABLED = true
+-- GLOBAL.require("debugkeys")
+-- GLOBAL.require("debugtools")
 
 
 --- Sort through the bag and return the items' new offsets.
