@@ -131,13 +131,6 @@ local function getNextAvailableBackpackSlot(item, player)
 		prefabName = item.prefab
 
 		-- Check for stacks that aren't full.
-		for k, v in pairs(inventory.equipslots) do
-			if v.prefab == prefabName and v.components.equippable.equipstack and
-				v.components.stackable and not v.components.stackable:IsFull() then
-				return k, inventory.equipslots
-			end
-		end
-
 		for k, v in pairs(inventory.itemslots) do
 			if v.prefab == prefabName and v.components.stackable and not v.components.stackable:IsFull() then
 				return k, inventory.itemslots
