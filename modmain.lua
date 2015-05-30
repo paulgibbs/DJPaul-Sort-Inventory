@@ -182,13 +182,16 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 	-- Has the player chosen to store this type of item in their backpack?
 	if bagPreference == "backpack" and backpack and backpack:NumItems() < backpackSlotCount then
 		slot, container = getNextAvailableBackpackSlot(item, player)
+		if slot == nil then
+			slot, container = getNextAvailableInventorySlot(player, item, "inventory")
+		end
 
 	-- Has the player chosen to store this type of item in their inventory?
 	-- Or, did they want to store it in their backpack, but it has no space?
 	else
 		slot, container = inventory:GetNextAvailableSlot(item)
 		if slot == nil then
-			print('maybe overflow?', item.name)
+			slot, container = getNextAvailableInventorySlot(player, item, "backpack")
 		end
 	end
 
@@ -337,15 +340,10 @@ local function sortInventory(player, maxLights, backpackCategory)
 
 			-- Put the item in its sorted slot/container.
 			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
-			if slot then
-				container:GiveItem(itemObj, slot, nil)
-			else
-				print('DJPAUL item gone weird', itemObj.name)
-				inventory:DropItem(item, true, true)
-			end
+			container:GiveItem(itemObj, slot, nil)
 		end
-
 	end
+
 end
 
 --- Inventory must be sorted server-side, so listen for a RPC.
