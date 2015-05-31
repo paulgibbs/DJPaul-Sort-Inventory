@@ -15,7 +15,7 @@ When you sort your inventory, the mod looks at every item you have, and decides 
 The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position. Where possible, items are stacked together to save space.
 
 ## Release History
-#### v1.2 31/May/2015
+#### v1.3 31/May/2015
 - New: When sorting, where possible, items are now stacked together to save space.
 
 #### v1.2 22/May/2015
