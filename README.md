@@ -1,7 +1,7 @@
 DJPaul's Sort Inventory for [Don't Starve Together](http://dontstarvetogether.com/)
 ===
 
-Automatically sorts your inventory into a sensible order.
+Automatically stacks and sorts your inventory into a sensible order.
 
 ## Installation
 [Download the latest release](https://github.com/paulgibbs/DJPaul-Sort-Inventory/releases) and extract it into `\Steam\SteamApps\common\Don't Starve Together Beta\mods\`, or find it in the Steam Workshop.
@@ -12,9 +12,12 @@ Press the `g` key to sort your inventory.
 ## How does it work?
 When you sort your inventory, the mod looks at every item you have, and decides what kind of thing it is. For example, is it a weapon, is it a tool, is it food, and so on. Similar items are then sorted into groups and ordered, where possible, by some relevant value for that group (e.g. weapons are sorted by damage, tools sorted by durability, and food is sorted by how much it feeds or heals you).
 
-The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position.
+The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position. Where possible, items are stacked together to save space.
 
 ## Release History
+#### v1.2 31/May/2015
+- New: When sorting, where possible, items are now stacked together to save space.
+
 #### v1.2 22/May/2015
 - Fix: Prevent backpacks being overfilled (the items were being dropped to the floor).
 - New: Connecting to a server running this mod will now download the mod if you do not already have it.

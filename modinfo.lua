@@ -1,7 +1,7 @@
 name        = "DJPaul's Sort Inventory"
-description = "Automatically sorts your inventory into a sensible order."
+description = "Automatically stacks and sorts your inventory into a sensible order."
 author      = "Paul Gibbs (DJPaul)"
-version     = "1.2"
+version     = "1.3"
 forumthread = "/topic/54138-new-mod-djpauls-sort-inventory/"
 
 api_version                = 10  -- DST api version
