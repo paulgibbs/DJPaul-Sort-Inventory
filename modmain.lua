@@ -82,6 +82,7 @@ local function itemIsResource(inst)
 		"Pig Skin",
 		"Thulecite Fragments",
 		"Rocks",
+		"Nitre",
 	}
 
 	for i = 1, #items do
