@@ -355,7 +355,7 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
-	if not GLOBAL.ThePlayer then
+	if not GLOBAL.ThePlayer or GLOBAL.tonumber(GetModConfigData("funMode") == 0) then
 		return
 	end
 

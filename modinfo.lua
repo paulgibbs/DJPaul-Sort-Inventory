@@ -63,4 +63,13 @@ configuration_options = {
 			{ description = "Weapons",   data = "weapons" },
 		}
 	},
+	{
+		default = 1,
+		label   = "Fun Mode?",
+		name    = "funMode",
+		options = {
+			{ description = "Yes", data = 1 },
+			{ description = "No",  data = 0 },
+		}
+	},
 }
