@@ -359,6 +359,10 @@ GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
 		return
 	end
 
+	if GLOBAL.ThePlayer.HUD:IsConsoleScreenOpen() or GLOBAL.ThePlayer.HUD:IsChatInputScreenOpen() then
+		return
+	end
+
 	local backpackCategory = GetModConfigData("backpackCategory")
 	local maxLights        = GLOBAL.tonumber(GetModConfigData("maxLights"))
 	local modVersion       = GLOBAL.KnownModIndex:GetModInfo(modname).version
