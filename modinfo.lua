@@ -64,12 +64,12 @@ configuration_options = {
 		}
 	},
 	{
-		default = 1,
+		default = "yes",
 		label   = "Fun Mode?",
 		name    = "funMode",
 		options = {
-			{ description = "Yes", data = 1 },
-			{ description = "No",  data = 0 },
+			{ description = "Yes", data = "yes" },
+			{ description = "No",  data = "no" },
 		}
 	},
 }

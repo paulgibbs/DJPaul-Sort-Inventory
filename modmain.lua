@@ -355,10 +355,6 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
-	if not GLOBAL.ThePlayer or GLOBAL.tonumber(GetModConfigData("funMode") == 0) then
-		return
-	end
-
 	if GLOBAL.ThePlayer.HUD:IsConsoleScreenOpen() or GLOBAL.ThePlayer.HUD:IsChatInputScreenOpen() then
 		return
 	end
@@ -376,5 +372,7 @@ GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
 		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], modVersion, maxLights, backpackCategory)
 	end
 
-	GLOBAL.ThePlayer.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
+	if GLOBAL.ThePlayer and GetModConfigData("funMode") == "yes" then
+		GLOBAL.ThePlayer.SoundEmitter:PlaySound("dontstarve/creatures/perd/gobble")
+	end
 end)
