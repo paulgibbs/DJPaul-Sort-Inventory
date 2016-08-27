@@ -101,7 +101,7 @@ end
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsTool(inst)
-	return (inst.components.tool or inst.components.terraformer) and inst.components.equippable and inst.components.finiteuses
+	return inst.components.equippable and inst.components.finiteuses and (inst.components.tool or inst.components.terraformer)
 end
 
 --- Is the item a weapon?
