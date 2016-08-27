@@ -96,11 +96,12 @@ local function itemIsResource(inst)
 end
 
 --- Is the item a tool?
+-- As of 28th August 2016, the only prefab with "terraformer" is the pitchfork.
 --
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsTool(inst)
-	return inst.components.tool and inst.components.equippable and inst.components.finiteuses
+	return (inst.components.tool or inst.components.terraformer) and inst.components.equippable and inst.components.finiteuses
 end
 
 --- Is the item a weapon?
