@@ -53,7 +53,7 @@ end
 -- @param inst InventoryItem object
 -- @return bool
 local function itemIsLight(inst)
-	return inst.components.lighter and inst.components.fueled
+	return inst.components.fueled and (inst.components.lighter or inst.HasTag == "light")
 end
 
 --- Is the item a priority resource?
