@@ -171,10 +171,11 @@ end
 -- @param player
 -- @param item InventoryItem object.
 -- @param bagPreference If new slot required, which container to use. Either "backpack" or "inventory".
+-- @param sortBackpack Whether to sort the backpack.
 -- @return Offset, inventory/container object.
-local function getNextAvailableInventorySlot(player, item, bagPreference)
+local function getNextAvailableInventorySlot(player, item, bagPreference, sortBackpack)
 	local inventory         = player.components.inventory
-	local backpack          = inventory:GetOverflowContainer()
+	local backpack          = (sortBackpack == 'yes' and inventory and inventory:GetOverflowContainer()) or nil
 	local backpackSlotCount = backpack and backpack:GetNumSlots() or 0
 
 	local container = nil
@@ -185,15 +186,15 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 	if bagPreference == "backpack" and backpack and backpack:NumItems() < backpackSlotCount then
 		slot, container = getNextAvailableBackpackSlot(item, player)
 		if slot == nil then
-			slot, container = getNextAvailableInventorySlot(player, item, "inventory")
+			slot, container = getNextAvailableInventorySlot(player, item, "inventory", sortBackpack)
 		end
 
 	-- Has the player chosen to store this type of item in their inventory?
 	-- Or, did they want to store it in their backpack, but it has no space?
 	else
 		slot, container = inventory:GetNextAvailableSlot(item)
-		if slot == nil then
-			slot, container = getNextAvailableInventorySlot(player, item, "backpack")
+		if slot == nil and backpack then
+			slot, container = getNextAvailableInventorySlot(player, item, "backpack", sortBackpack)
 		end
 	end
 
@@ -214,10 +215,11 @@ end
 -- @param player Sort this player's inventory.
 -- @param maxLights Max. number of torches to sort.
 -- @param backpackCategory Category of item to sort into backpack.
-local function sortInventory(player, maxLights, backpackCategory)
+-- @param sortBackpack Whether to sort the backpack.
+local function sortInventory(player, maxLights, backpackCategory, sortBackpack)
 	local inventory    = player and player.components.inventory or nil
 	local isPlayerHurt = (player.components.health:GetPercent() * 100) <= 30
-	local backpack     = inventory and inventory:GetOverflowContainer() or nil
+	local backpack     = (sortBackpack == 'yes' and inventory and inventory:GetOverflowContainer()) or nil
 	local armourBag    = { contents = {}, sortBy = 'value', type = 'armour' }
 	local foodBag      = { contents = {}, sortBy = 'value', type = 'food' }
 	local lightBag     = { contents = {}, sortBy = 'value', type = 'light' }
@@ -341,7 +343,7 @@ local function sortInventory(player, maxLights, backpackCategory)
 			end
 
 			-- Put the item in its sorted slot/container.
-			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
+			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference, sortBackpack)
 			container:GiveItem(itemObj, slot, nil)
 		end
 	end
@@ -349,8 +351,8 @@ local function sortInventory(player, maxLights, backpackCategory)
 end
 
 --- Inventory must be sorted server-side, so listen for a RPC.
-AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, modVersion, maxLights, backpackCategory)
-	sortInventory(player, maxLights, backpackCategory)
+AddModRPCHandler(modname, "dsiRemoteSortInventory", function(player, modVersion, maxLights, backpackCategory, sortBackpack)
+	sortInventory(player, maxLights, backpackCategory, sortBackpack)
 end)
 
 
@@ -363,14 +365,15 @@ GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
 	local backpackCategory = GetModConfigData("backpackCategory")
 	local maxLights        = GLOBAL.tonumber(GetModConfigData("maxLights"))
 	local modVersion       = GLOBAL.KnownModIndex:GetModInfo(modname).version
+	local sortBackpack     = GetModConfigData("sortBackpack")
 
 	-- Server-side
 	if GLOBAL.TheNet:GetIsServer() then
-		sortInventory(GLOBAL.ThePlayer, maxLights, backpackCategory)
+		sortInventory(GLOBAL.ThePlayer, maxLights, backpackCategory, sortBackpack)
 
 	-- Client-side
 	else
-		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], modVersion, maxLights, backpackCategory)
+		SendModRPCToServer(MOD_RPC[modname]["dsiRemoteSortInventory"], modVersion, maxLights, backpackCategory, sortBackpack)
 	end
 
 	if GLOBAL.ThePlayer and GetModConfigData("funMode") == "yes" then
