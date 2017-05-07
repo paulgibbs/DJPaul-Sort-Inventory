@@ -198,8 +198,12 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 		-- and 1 partial stack, and that partial stack is in any of the player's equipslots, cause a crash. 
 		-- Known examples include blowdarts and water balloons.
 		if inventory.equipslots ~= nil and inventory.equipslots == container then
-			container = nil
-			slot      = nil
+			local backup = inventory.equipslots
+			inventory.equipslots = {}
+
+			slot, container = getNextAvailableInventorySlot(player, item, bagPreference)
+
+			inventory.equipslots = backup
 		end
 
 		if slot == nil and backpack then
@@ -209,7 +213,7 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 
 	-- Cconvert the response of GetNextAvailableSlot() into the appropriate object.
 	if slot then
-		if container == inventory.equipslots or container == inventory.itemslots then
+		if container == inventory.itemslots then
 			container = inventory
 		end
 
