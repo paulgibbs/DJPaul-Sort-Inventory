@@ -73,13 +73,4 @@ configuration_options = {
 			{ description = "No",  data = "no" },
 		}
 	},
-	{
-		default = "yes",
-		label   = "Sort backpack?",
-		name    = "sortBackpack",
-		options = {
-			{ description = "Yes", data = "yes" },
-			{ description = "No",  data = "no" },
-		}
-	}
 }
