@@ -207,15 +207,15 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 		end
 	end
 
-	-- Cconvert the response of GetNextAvailableSlot() into the appropriate object.
+	-- If we got itemslots, return the original inventory
+	-- equipslots are handled in the calling code!
 	if slot then
-		if container == inventory.equipslots or container == inventory.itemslots then
+		if container == inventory.itemslots then
 			container = inventory
 		end
 
 		-- backpack is handled by default.
 	end
-
 	return slot, container
 end
 
@@ -352,7 +352,22 @@ local function sortInventory(player, maxLights, backpackCategory)
 
 			-- Put the item in its sorted slot/container.
 			local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
-			container:GiveItem(itemObj, slot, nil)
+			if slot ~= nil and container == inventory.equipslots then
+				-- You can't GiveItem to equipslots. So manually combine the itemObj with the equipped stack.
+				local eitem = inventory:GetEquippedItem(slot)
+				-- Combine the sorted itemstack with the equipped stack. Remainder is returned to itemObj.
+				itemObj = (eitem.components.stackable ~= nil) and eitem.components.stackable:Put(itemObj) or itemObj
+				if itemObj ~= nil and itemObj:IsValid() then
+					-- Giving remainder into inventory.
+					local slot, container = getNextAvailableInventorySlot(player, itemObj, bagPreference)
+					container:GiveItem(itemObj, slot, nil)
+				else
+					-- Should we do something with itemObj?
+					print "The sorted item was consumed by the equipslot"
+				end
+			else
+				container:GiveItem(itemObj, slot, nil)
+			end
 		end
 	end
 
