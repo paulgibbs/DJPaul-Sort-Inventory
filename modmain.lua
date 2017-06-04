@@ -113,7 +113,6 @@ local function itemIsWeapon(inst)
 end
 
 --- Find the best slot in the backpack for an item. Suppports stacking.
---
 -- Ported version of core's Inventory:GetNextAvailableSlot.
 -- The backpack is a Container, not an Inventory object. See http://goo.gl/hX9R98
 --
@@ -193,15 +192,6 @@ local function getNextAvailableInventorySlot(player, item, bagPreference)
 	-- Or, did they want to store it in their backpack, but it has no space?
 	else
 		slot, container = inventory:GetNextAvailableSlot(item)
-
-		-- Prefabs that have both equippable and stackable properties, when there is (at least) 1 full stack
-		-- and 1 partial stack, and that partial stack is in any of the player's equipslots, cause a crash. 
-		-- Known examples include blowdarts and water balloons.
-		if inventory.equipslots ~= nil and inventory.equipslots == container then
-			container = nil
-			slot      = nil
-		end
-
 		if slot == nil and backpack then
 			slot, container = getNextAvailableInventorySlot(player, item, "backpack")
 		end
