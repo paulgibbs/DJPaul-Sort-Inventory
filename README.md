@@ -15,6 +15,9 @@ When you sort your inventory, the mod looks at every item you have, and decides 
 The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position. Where possible, items are stacked together to save space.
 
 ## Release History
+#### v1.7 04/June/2017
+- Fix: Crash when sorting stackable equippables (i.e. darts); props @myxal -- many thanks!
+
 #### v1.6 22/October/2016
 - Fix: Sort the Mining Lantern into the Lights group.
 - Fix: Sort Pitchfork into the Tools group (was Weapons).
