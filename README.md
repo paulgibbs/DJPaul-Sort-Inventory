@@ -15,6 +15,9 @@ When you sort your inventory, the mod looks at every item you have, and decides 
 The item groups themselves are then sorted into an optimum order determined by playtesting. Finally, each item is then re-inserted into your inventory in its new position. Where possible, items are stacked together to save space.
 
 ## Release History
+#### v1.8 04/June/2017
+- Fix: I made an error packaging v1.7. Oops! Now fixed.
+
 #### v1.7 04/June/2017
 - Fix: Crash when sorting stackable equippables (i.e. darts); props @myxal -- many thanks!
 
