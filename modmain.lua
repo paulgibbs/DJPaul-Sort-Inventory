@@ -371,7 +371,10 @@ end)
 
 --- Press "G" to sort your inventory.
 GLOBAL.TheInput:AddKeyDownHandler(GetModConfigData("keybind"), function()
-	if GLOBAL.ThePlayer.HUD:IsConsoleScreenOpen() or GLOBAL.ThePlayer.HUD:IsChatInputScreenOpen() then
+	if not (GLOBAL.TheFrontEnd:GetActiveScreen() and
+			GLOBAL.TheFrontEnd:GetActiveScreen().name and
+			type(GLOBAL.TheFrontEnd:GetActiveScreen().name) == "string" and
+			GLOBAL.TheFrontEnd:GetActiveScreen().name == "HUD") then
 		return
 	end
 
